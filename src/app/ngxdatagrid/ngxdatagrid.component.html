@@ -1,0 +1,30 @@
+
+<ng-template #checkboxCell let-row="row" let-trackingIndex = "row.trackingIndex"><input type="checkbox" [checked]="row.checked" (change)="selectRow($event.target,row,trackingIndex)"></ng-template>
+
+ <ng-template #normalCellTemplate let-row="row" let-column="column">
+  {{row[column.name]}}
+  </ng-template>
+
+<ng-container *ngTemplateOutlet="mainGrid;context:{gridRows:rows}"></ng-container>
+
+<ng-template #mainGrid let-gridRows="gridRows">
+ <div [style.width]="gridWidth + 'px'" [style.height]="gridHeight + 'px'"  [style.border]="'1px solid lightgrey'">
+  <div [style.width]="headerRowWidth+ 'px'" [style.background-color]="'orange'" [style.position]="'absolute'" [style.border-bottom]="'1px solid lightgrey'">
+    <span *ngFor="let column of columns;let first=first;let columnIndex=index" [style.line-height]="headerRowHeight+'px'" class="headerCell" [style.height]="headerRowHeight+ 'px'" 
+    [ngClass]={firstCell:first,intermediateCell:!first} [style.width]="column.width+'px'"><span class="headerName" (click)="sort(column.name)">{{resolveName(column.name)}}</span></span>
+  </div>
+  <div [style.margin-top]="headerRowHeight+'px'" style="overflow-y:overlay" [style.height]="gridHeight-headerRowHeight + 'px'" >
+    <div *ngFor="let row of gridRows;let even=even;let odd=odd;" class="gridRow" [ngClass]={evenRow:even,oddRow:odd}>
+      <span class="gridCell" *ngFor="let column of columns;let first=first;" [ngClass]={firstCellOfRow:first,intermediateCellOfRow:!first} [style.width]="column.width+'px'">
+        <ng-container *ngIf="column.name == 'checkboxColumn'">
+            <ng-container *ngTemplateOutlet="checkboxCell;context:{row:row}"></ng-container>
+        </ng-container>
+        <ng-container *ngTemplateOutlet="column.cellTemplate;context:{row:row,column:column}"></ng-container>
+      </span>
+    </div>
+    </div>
+
+
+ </div>
+</ng-template>
+

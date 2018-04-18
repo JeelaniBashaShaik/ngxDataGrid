@@ -1,0 +1,55 @@
+.gridCell{
+    text-align: center;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+}
+
+.headerCell {
+    float: left;
+    text-align: center;
+    background-color: orange;
+    color:white;
+}
+
+.gridRow:hover{
+    background-color: rgb(156, 206, 245) !important;
+}
+
+.gridRow{
+    border-bottom:1px solid lightgrey;
+}
+
+input[type="checkbox"] {
+    margin:0px;
+    cursor: pointer;
+}
+
+ .headerName{
+     cursor: pointer;
+     font-size: 18px
+ }
+
+ .firstCell{
+     border-right:none;
+ }
+
+ .intermediateCell{
+     border-left:1px solid lightgrey;
+ }
+
+ .firstCellOfRow{
+    border-right:none;
+}
+
+.intermediateCellOfRow{
+    border-left:1px solid lightgrey;
+}
+ .evenRow{
+    background-color: rgb(247, 247, 247);
+ }
+
+ .oddRow{
+    background-color: rgb(253, 253, 253);
+ }
+ 

@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>NgxDataGrid Demo</span>
+    <span class="example-spacer"></span>
+    
+    <a [href]="'https://github.com/JeelaniBashaShaik/ngxDataGrid'" [target]="_blank"><img [style.padding-right]="'15px  '" src="/assets/github.svg"  height="32" width="32"></a>
+    <a [href]="'https://www.npmjs.com/package/@jeelanibashashaik07/ngxdatagrid'" [target]="_blank"><img src="/assets/npm.svg"  height="52" width="52"></a>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+    <mat-grid-list cols="6" rowHeight="550px">
+      <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="'lightgrey'">
+        <mat-list role="list">
+          <mat-list-item role="listitem"><button mat-raised-button color="primary" routerLink="/basic">Basic</button></mat-list-item>
+          <mat-list-item role="listitem"><button mat-raised-button color="primary" routerLink="/multiSelect">Multi Select</button></mat-list-item>
+          <mat-list-item role="listitem"><button mat-raised-button color="primary" routerLink="./templateRef">Template Ref</button></mat-list-item>
+        </mat-list>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="5" [rowspan]="1" [style.background]="'aliceblue'">
+        <mat-card>
+          <router-outlet></router-outlet>
+        </mat-card>
+        
+      </mat-grid-tile>
+     
+    </mat-grid-list>
+    
+    
+

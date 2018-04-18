@@ -1,0 +1,6 @@
+<p> Multi Select example for ngxdatagrid. Open console to view the selected Rows.<span [style.float]="'right'"> <a [href]="asfd" [target]="_blank">View Code</a></span></p>
+
+
+<ngxdatagrid [rows]="dataArray" (selectedData)="getSelectedData($event)" [selectionType]="'multiple'" [columns]="cols" [gridHeight]="'350'" [headerRowHeight]="'30'" [gridWidth]="'900'"></ngxdatagrid>
+
+<p>Number of selected Rows: {{selectedRows.length}} </p>
