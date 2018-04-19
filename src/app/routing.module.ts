@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { BasicExampleComponent } from './examples/basic/basic-example.component';
 import { TemplateRefExampleComponent } from './examples/templateRef/template-ref-example.component';
 import { MultiSelectComponent } from './examples/multi-select/multi-select.component';
+import { DraggableComponent } from './examples/draggable/draggable.component';
 
 const routes: Routes = [
   { path: '', component: BasicExampleComponent },
   { path: 'basic', component:BasicExampleComponent },
   { path: 'templateRef', component:TemplateRefExampleComponent },
-  { path: 'multiSelect', component:MultiSelectComponent }
+  { path: 'multiSelect', component:MultiSelectComponent },
+  { path: 'draggable', component:DraggableComponent }
 ];
 
 @NgModule({

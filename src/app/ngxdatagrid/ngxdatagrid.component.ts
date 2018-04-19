@@ -14,6 +14,7 @@ export class NgxdatagridComponent implements OnInit {
   @Input('gridWidth') gridWidth:any;
   @Input('headerRowHeight') headerRowHeight:any;
   @Input('selectionType') selectionType:string;
+  @Input('draggableColumns') isDraggable:boolean=false;
   @Output()  selectedData: EventEmitter<any> = new EventEmitter();
   @ViewChild('normalCellTemplate') normalCellTemplate:any;
   
@@ -26,6 +27,8 @@ export class NgxdatagridComponent implements OnInit {
   lastPropToSort:string;
   selectedRows:any=[];                              // selected rows from the grid will be stored in this array
   headerRowWidth:number;
+  dragSourceColumnIndex:number;
+  dropDestinationColumnIndex:number;
 
   constructor() { }
 
@@ -56,6 +59,7 @@ export class NgxdatagridComponent implements OnInit {
      row['trackingIndex'] = index;       // adding an index for each row on the grid
      row['checked'] = false;
    })
+   //this.isDraggable = true;
   }
 
 
@@ -97,7 +101,31 @@ export class NgxdatagridComponent implements OnInit {
     this.selectedData.emit(this.selectedRows);
   }
 
-
-  
+    dragStart(event,columnIndex){
+      setTimeout(() => {
+        event.stopPropagation();  
+      }, 10);
+      this.dragSourceColumnIndex = columnIndex;
+    }
+    
+    allowDrop(ev) {
+        ev.preventDefault();
+        setTimeout(() => {
+          event.stopPropagation();  
+        }, 10);
+    }
+    
+    drop(event,columnIndex) {
+        event.preventDefault();
+        setTimeout(() => {
+          event.stopPropagation();  
+        }, 10);
+        this.dropDestinationColumnIndex=columnIndex;
+        let item1 = this.columns[this.dragSourceColumnIndex];
+        let item2 = this.columns[this.dropDestinationColumnIndex];
+        this.columns[this.dropDestinationColumnIndex] = item1;
+        this.columns[this.dragSourceColumnIndex] = item2;
+        this.columns=[...this.columns];
+    }
 
 }

@@ -9,6 +9,7 @@ import { RoutingModule } from './/routing.module';
 import { BasicExampleComponent } from './examples/basic/basic-example.component';
 import { TemplateRefExampleComponent } from './examples/templateRef/template-ref-example.component';
 import { MultiSelectComponent } from './examples/multi-select/multi-select.component';
+import { DraggableComponent } from './examples/draggable/draggable.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { MultiSelectComponent } from './examples/multi-select/multi-select.compo
     NgxdatagridComponent,
     BasicExampleComponent,
     TemplateRefExampleComponent,
-    MultiSelectComponent
+    MultiSelectComponent,
+    DraggableComponent
   ],
   imports: [
     BrowserModule,
