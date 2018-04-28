@@ -1,0 +1,11 @@
+
+
+ <p> This example Demonstrates search/filter the grid data based on the keyword.
+  <input [type]="text" (keyup)="searchGrid($event.target.value)" [placeholder]="'search for any cell'"> 
+  <span [style.float]="'right'"> <a [href]="'https://github.com/JeelaniBashaShaik/ngxDataGrid/tree/master/src/app/examples/filter-grid'" [target]="'_blank'">View Code</a></span>
+ </p> 
+
+
+
+<ngxdatagrid [rows]="dataArray" [selectionType]="'single'" [columns]="cols" [gridHeight]="'350'" [headerRowHeight]="'30'" [gridWidth]="'900'"></ngxdatagrid>
+

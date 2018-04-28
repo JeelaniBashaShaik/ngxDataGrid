@@ -10,6 +10,7 @@
     text-align: center;
     background-color: orange;
     color:white;
+    resize: horizontal;
 }
 
 .gridRow:hover{

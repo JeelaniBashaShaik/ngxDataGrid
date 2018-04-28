@@ -10,6 +10,8 @@ import { BasicExampleComponent } from './examples/basic/basic-example.component'
 import { TemplateRefExampleComponent } from './examples/templateRef/template-ref-example.component';
 import { MultiSelectComponent } from './examples/multi-select/multi-select.component';
 import { DraggableComponent } from './examples/draggable/draggable.component';
+import { EditableComponent } from './examples/editable/editable.component';
+import { FilterGridComponent } from './examples/filter-grid/filter-grid.component';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { DraggableComponent } from './examples/draggable/draggable.component';
     BasicExampleComponent,
     TemplateRefExampleComponent,
     MultiSelectComponent,
-    DraggableComponent
+    DraggableComponent,
+    EditableComponent,
+    FilterGridComponent
   ],
   imports: [
     BrowserModule,

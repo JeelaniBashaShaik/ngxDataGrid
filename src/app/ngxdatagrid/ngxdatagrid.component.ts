@@ -102,24 +102,18 @@ export class NgxdatagridComponent implements OnInit {
   }
 
     dragStart(event,columnIndex){
-      setTimeout(() => {
-        event.stopPropagation();  
-      }, 10);
+      event.stopPropagation(); 
       this.dragSourceColumnIndex = columnIndex;
     }
     
-    allowDrop(ev) {
-        ev.preventDefault();
-        setTimeout(() => {
-          event.stopPropagation();  
-        }, 10);
+    allowDrop(event) {
+        event.preventDefault();
+        event.stopPropagation();  
     }
     
     drop(event,columnIndex) {
         event.preventDefault();
-        setTimeout(() => {
-          event.stopPropagation();  
-        }, 10);
+        event.stopPropagation();  
         this.dropDestinationColumnIndex=columnIndex;
         let item1 = this.columns[this.dragSourceColumnIndex];
         let item2 = this.columns[this.dropDestinationColumnIndex];
