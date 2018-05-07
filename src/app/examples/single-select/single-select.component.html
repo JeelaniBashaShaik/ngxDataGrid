@@ -1,0 +1,11 @@
+<mat-card>
+  <p> Single Select example for ngxdatagrid. <span [style.float]="'right'"> <a [href]="'https://github.com/JeelaniBashaShaik/ngxDataGrid/tree/master/src/app/examples/single-select'" [target]="'_blank'">View Code</a></span></p>
+  <mat-grid-list cols="1" rowHeight="450px">
+      <mat-grid-tile>
+              <ngxdatagrid [rows]="dataArray" [rowHeight]="30" (selectedData)="getSelectedData($event)" [selectionType]="'single'" [columns]="cols" [gridHeight]="'350'" [headerRowHeight]="'30'" [gridWidth]="'900'"></ngxdatagrid>
+      </mat-grid-tile>
+  </mat-grid-list>
+  <p>Selected Row: {{selectedRow | json}} </p>
+</mat-card>
+
+

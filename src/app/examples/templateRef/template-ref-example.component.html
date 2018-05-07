@@ -1,23 +1,5 @@
-<p>This example demonstrates how to add any cell-template to the columns of ngxdatagrid. <span [style.float]="'right'"> <a [href]="'https://github.com/JeelaniBashaShaik/ngxDataGrid/tree/master/src/app/examples/templateRef'" [target]="'_blank'">View Code</a></span></p>
-True's Color:
-<mat-form-field>
-    <mat-select [(value)]="trueColor">
-      <mat-option *ngFor="let color of colors" [value]="color">
-        {{color}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
 
-  False's Color:
-  <mat-form-field>
-      <mat-select [(value)]="falseColor">
-        <mat-option *ngFor="let color of colors" [value]="color">
-          {{color}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
 
-<ngxdatagrid [rows]="dataArray" [selectionType]="'single'" [columns]="cols" [gridHeight]="'350'" [headerRowHeight]="'30'" [gridWidth]="'900'"></ngxdatagrid>
 
 <ng-template #colorTemplate let-column="column" let-row="row">
   <span *ngIf="row[column.name] == true" [style.color]="trueColor">{{row[column.name]}}</span>
@@ -26,3 +8,31 @@ True's Color:
 
 
     
+<mat-card>
+    <p>This example demonstrates how to add any cell-template to the columns of ngxdatagrid. <span [style.float]="'right'"> <a [href]="'https://github.com/JeelaniBashaShaik/ngxDataGrid/tree/master/src/app/examples/templateRef'" [target]="'_blank'">View Code</a></span></p>
+    True's Color:
+    <mat-form-field>
+        <mat-select [(value)]="trueColor">
+          <mat-option *ngFor="let color of colors" [value]="color">
+            {{color}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+      False's Color:
+      <mat-form-field>
+          <mat-select [(value)]="falseColor">
+            <mat-option *ngFor="let color of colors" [value]="color">
+              {{color}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    
+    <mat-grid-list cols="1" rowHeight="450px">
+        <mat-grid-tile>
+            <ngxdatagrid [rows]="dataArray" [rowHeight]="30" [selectionType]="'single'" [columns]="cols" [gridHeight]="'350'" [headerRowHeight]="'30'" [gridWidth]="'900'"></ngxdatagrid>
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-card>
+
+

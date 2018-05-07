@@ -1,36 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-filter-grid',
-  templateUrl: './filter-grid.component.html',
-  styleUrls: ['./filter-grid.component.css']
+  selector: 'app-single-select',
+  templateUrl: './single-select.component.html',
+  styleUrls: ['./single-select.component.css']
 })
-export class FilterGridComponent implements OnInit {
+export class SingleSelectComponent implements OnInit {
 
-  dataArrayCopy=[];
   constructor() { }
 
   ngOnInit() {
-    this.dataArrayCopy = JSON.parse(JSON.stringify(this.dataArray));
   }
 
-  
-
-  searchGrid(query){
-    if(!query){
-      this.dataArray = [...this.dataArrayCopy];
-    }else{
-      query = query.toString().toLowerCase();
-        let arrayToReturn =   this.dataArrayCopy.filter(row=>{
-        let columns = Object.keys(row);
-            return (columns.map(column=>{
-                if(column != 'checked')
-                  return row[column]
-            }).toString().toLowerCase().indexOf(query)) > -1;
-      })
-      this.dataArray = arrayToReturn;
-    }
-  }
+  selectedRow:any;
   cols=[
     {name:"userId"},
     {name:"id"},
@@ -117,5 +99,7 @@ export class FilterGridComponent implements OnInit {
       "completed": true
   }
 ];
-
+  getSelectedData(selectedRow){
+    this.selectedRow = selectedRow;
+  }
 }

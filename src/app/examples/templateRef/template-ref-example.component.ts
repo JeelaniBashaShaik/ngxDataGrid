@@ -23,7 +23,6 @@ export class TemplateRefExampleComponent implements OnInit {
       {name:"title"},
       {name:"completed",cellTemplate:this.colorTemplate}
     ];
-    console.log(this.cols);
   }
   
   dataArray = [

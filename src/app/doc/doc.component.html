@@ -1,0 +1,138 @@
+<mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Inputs
+        </mat-panel-title>
+        <mat-panel-description>
+          Inputs for grid
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    
+      <mat-accordion>
+          <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title class="panel-title">
+                  rows
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              Input data for grid. Accepts an array of Objects. Make sure that each object in the rows have same properties as that of assigned columns in cols array of grid
+              <img src="/assets/rows.png">
+          </mat-expansion-panel>
+      </mat-accordion>
+      <div [style.height]="'10px'"></div>
+      <mat-accordion>
+          <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title class="panel-title">
+                  columns
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              Input columns for grid. Accepts an array of Objects. Each object in this array should contain a key-value pair with key as "name", value being the property to be displayed.
+              <img src="/assets/cols.png">
+          </mat-expansion-panel>
+      </mat-accordion>
+      <div [style.height]="'10px'"></div>
+      <mat-accordion>
+          <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title class="panel-title">
+                  selectionType
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>Single-select/multi-select option for grid. Accepts a string. If selectionType is set to 'multiple', checkboxes will be rendered in the first column. Else if the selectionType is set to 'single', radio buttons will be rendered. The selection made will be emitted through the 'selectedData' method. Removing the selectionType property results in just a scrollable list.
+              Find the difference between this with the <strong> <a routerLink="/basic">Basic</a></strong> and <strong><a routerLink="/multiSelect">Multi-select</a></strong> examples from the left panel.</p>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <div [style.height]="'10px'"></div>
+      <mat-accordion>
+          <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title class="panel-title">
+                  gridHeight
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p> The height of the grid in pixels. Accepts a number which will then be used to set the height of the grid in pixels.</p>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <div [style.height]="'10px'"></div>
+      <mat-accordion>
+          <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title class="panel-title">
+                  gridWidth
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p> The width of the grid in pixels. Accepts a number which will then be used to set the width of the grid in pixels.</p>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <div [style.height]="'10px'"></div>
+      <mat-accordion>
+          <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title class="panel-title">
+                  headerRowHeight
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p> The height of header-row. Accepts a number. This property sets the height of header-row of the grid in pixels.</p>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <div [style.height]="'10px'"></div>
+      <mat-accordion>
+          <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title class="panel-title">
+                  rowHeight
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p> The height of each row. Accepts a number. This property sets the height of each row in the grid in pixels.</p>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <div [style.height]="'10px'"></div>
+      <mat-accordion>
+          <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title class="panel-title">
+                  forceColumnWidth
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>Accepts a number. If set to true, you need to specify custom width for each of the columns. If set to false, width for each column will be same. Visit the 
+                <strong><a routerLink="/customWidth">Custom Width</a></strong> example from the left bar</p>
+          </mat-expansion-panel>
+      </mat-accordion>
+    </mat-expansion-panel>
+    <div [style.height]="'10px'"></div>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Output
+          </mat-panel-title>
+          <mat-panel-description>
+              Events emitted by grid.
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>If the selectionType is set to 'multiple' or 'single', then the selected rows will be emitted from the event 'selectedData'. Have a look at the 
+          <strong><a routerLink="/singleSelect">Single Select</a></strong> and 
+          <strong><a routerLink="/multiSelect">Multi Select</a></strong> examples</p>
+    </mat-expansion-panel>
+
+    <div [style.height]="'10px'"></div>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Extras
+          </mat-panel-title>
+          <mat-panel-description>
+            List of Features provided by ngx-data-grid
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p><span [style.color]="'green'" [style.font-size]="'18px'">Sorting</span> - The grid comes with merge-sort algorithm. You can sort any column either ascending or descending just by clicking on the column name.
+          <div [style.height]="'10px'"></div>
+        <p><span [style.color]="'green'" [style.font-size]="'18px'">Virtual Scroll</span> - The grid comes with virtual-scroll technique by default and no need to add any extra code. This technique helps to load large datasets into the grid without any perfomance lag </p>
+        <div [style.height]="'10px'"></div>
+        <p><span [style.color]="'green'" [style.font-size]="'18px'">Cell Templates</span> - The grid comes with the ability to accept cell-templates for any/all of the columns. Have a look at the examples of
+        <a routerLink="/editable">Editable</a> and <a routerLink="/templateRef">Template Ref</a></p>
+    </mat-expansion-panel>
+    
+  </mat-accordion>
+  

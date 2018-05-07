@@ -4,23 +4,27 @@
     <span class="example-spacer"></span>
     
     <a [href]="'https://github.com/JeelaniBashaShaik/ngxDataGrid/tree/master/src/app/ngxdatagrid'" [target]="'_blank'"><img [style.padding-right]="'15px  '" src="/assets/github.svg"  height="32" width="32"></a>
-    <a [href]="'https://www.npmjs.com/package/@jeelanibashashaik07/ngxdatagrid'" [target]="'_blank'"><img src="/assets/npm.svg"  height="52" width="52"></a>
+    <a [href]="'https://www.npmjs.com/package/@jb7/ngxdatagrid'" [target]="'_blank'"><img src="/assets/npm.svg"  height="52" width="52"></a>
   </mat-toolbar-row>
 </mat-toolbar>
 
-    <mat-grid-list cols="6" rowHeight="550px">
+    <mat-grid-list cols="6" rowHeight="630px">
       <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="'lightgrey'">
         <mat-list role="list">
+          <mat-list-item role="listitem"><button mat-raised-button color="primary" routerLink="/doc">Documentation</button></mat-list-item>
+          <mat-divider></mat-divider>
           <mat-list-item role="listitem"><button mat-raised-button color="primary" routerLink="/basic">Basic</button></mat-list-item>
+          <mat-list-item role="listitem"><button mat-raised-button color="primary" routerLink="/singleSelect">Single Select</button></mat-list-item>
           <mat-list-item role="listitem"><button mat-raised-button color="primary" routerLink="/multiSelect">Multi Select</button></mat-list-item>
           <mat-list-item role="listitem"><button mat-raised-button color="primary" routerLink="/templateRef">Template Ref</button></mat-list-item>
-       <!--    <mat-list-item role="listitem"><button mat-raised-button color="primary" routerLink="/draggable">Draggable</button></mat-list-item> -->
           <mat-list-item role="listitem"><button mat-raised-button color="primary" routerLink="/editable">Editable</button></mat-list-item>
           <mat-list-item role="listitem"><button mat-raised-button color="primary" routerLink="/filterGrid">Filter</button></mat-list-item>
+          <mat-list-item role="listitem"><button mat-raised-button color="primary" routerLink="/virtualScroll">Virtual Scroll</button></mat-list-item>
+          <mat-list-item role="listitem"><button mat-raised-button color="primary" routerLink="/customWidth">Custom Width</button></mat-list-item>
         </mat-list>
       </mat-grid-tile>
       <mat-grid-tile [colspan]="5" [rowspan]="1" [style.background]="'aliceblue'">
-        <mat-card>
+        <mat-card [style.width]="'95%'" [style.height]="'90%'" [style.overflow-y]="'overlay'">
           <router-outlet></router-outlet>
         </mat-card>
         

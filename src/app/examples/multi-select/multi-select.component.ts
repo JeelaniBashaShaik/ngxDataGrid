@@ -100,9 +100,8 @@ export class MultiSelectComponent implements OnInit {
   }
 ];
   getSelectedData(selectedRows){
-    console.clear();
-    console.log(selectedRows);
     this.selectedRows = selectedRows;
+    console.log(this.selectedRows);
   }
   
 }

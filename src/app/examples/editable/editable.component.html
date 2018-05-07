@@ -1,7 +1,7 @@
-<p>This example demonstrates how to add editable cell-template to the columns of ngxdatagrid. <span [style.float]="'right'"> <a [href]="'https://github.com/JeelaniBashaShaik/ngxDataGrid/tree/master/src/app/examples/editable'" [target]="'_blank'">View Code</a></span></p>
 
 
-<ngxdatagrid [rows]="dataArray" [selectionType]="'single'" [columns]="cols" [gridHeight]="'350'" [headerRowHeight]="'30'" [gridWidth]="'900'"></ngxdatagrid>
+
+
 
 <ng-template #editableTemplate let-column="column" let-row="row" let-index="row.trackingIndex">
   <ng-container *ngIf="!isEdit[index+column.name]">{{row[column.name]}}</ng-container>
@@ -9,5 +9,11 @@
   <ng-container *ngIf="isEdit[index+column.name]"><input type="text" value={{row[column.name]}} (blur)="updateValueForColumn($event.target.value,column,index)"> </ng-container>
 </ng-template>
 
-
-    
+<mat-card>
+    <p>This example demonstrates how to add editable cell-template to the columns of ngxdatagrid. <span [style.float]="'right'"> <a [href]="'https://github.com/JeelaniBashaShaik/ngxDataGrid/tree/master/src/app/examples/editable'" [target]="'_blank'">View Code</a></span></p>
+    <mat-grid-list cols="1" rowHeight="450px">
+        <mat-grid-tile>
+            <ngxdatagrid [rows]="dataArray" [rowHeight]="30" [columns]="cols" [gridHeight]="'350'" [headerRowHeight]="'30'" [gridWidth]="'900'"></ngxdatagrid>
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-card>

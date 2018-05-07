@@ -12,6 +12,10 @@ import { MultiSelectComponent } from './examples/multi-select/multi-select.compo
 import { DraggableComponent } from './examples/draggable/draggable.component';
 import { EditableComponent } from './examples/editable/editable.component';
 import { FilterGridComponent } from './examples/filter-grid/filter-grid.component';
+import { VirtualScrollComponent } from './examples/virtual-scroll/virtual-scroll.component';
+import { DocComponent } from './doc/doc.component';
+import { SingleSelectComponent } from './examples/single-select/single-select.component';
+import { CustomWidthComponent } from './examples/custom-width/custom-width.component';
 
 
 @NgModule({
@@ -23,7 +27,11 @@ import { FilterGridComponent } from './examples/filter-grid/filter-grid.componen
     MultiSelectComponent,
     DraggableComponent,
     EditableComponent,
-    FilterGridComponent
+    FilterGridComponent,
+    VirtualScrollComponent,
+    DocComponent,
+    SingleSelectComponent,
+    CustomWidthComponent
   ],
   imports: [
     BrowserModule,

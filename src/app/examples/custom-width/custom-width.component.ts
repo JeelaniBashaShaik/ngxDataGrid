@@ -1,41 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-filter-grid',
-  templateUrl: './filter-grid.component.html',
-  styleUrls: ['./filter-grid.component.css']
+  selector: 'app-custom-width',
+  templateUrl: './custom-width.component.html',
+  styleUrls: ['./custom-width.component.css']
 })
-export class FilterGridComponent implements OnInit {
+export class CustomWidthComponent implements OnInit {
 
-  dataArrayCopy=[];
   constructor() { }
 
   ngOnInit() {
-    this.dataArrayCopy = JSON.parse(JSON.stringify(this.dataArray));
   }
 
-  
 
-  searchGrid(query){
-    if(!query){
-      this.dataArray = [...this.dataArrayCopy];
-    }else{
-      query = query.toString().toLowerCase();
-        let arrayToReturn =   this.dataArrayCopy.filter(row=>{
-        let columns = Object.keys(row);
-            return (columns.map(column=>{
-                if(column != 'checked')
-                  return row[column]
-            }).toString().toLowerCase().indexOf(query)) > -1;
-      })
-      this.dataArray = arrayToReturn;
-    }
-  }
   cols=[
-    {name:"userId"},
-    {name:"id"},
-    {name:"title"},
-    {name:"completed"}
+    {name:"userId",width:200},
+    {name:"id",width:150},
+    {name:"title",width:400},
+    {name:"completed",width:300}
   ];
   dataArray = [
     {
@@ -117,5 +99,4 @@ export class FilterGridComponent implements OnInit {
       "completed": true
   }
 ];
-
 }

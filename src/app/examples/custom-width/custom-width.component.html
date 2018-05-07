@@ -1,0 +1,10 @@
+<mat-card>
+  <p> This example shows how to add custom width for each column of ngxdatagrid.<span [style.float]="'right'"> <a [href]="'https://github.com/JeelaniBashaShaik/ngxDataGrid/tree/master/src/app/examples/custom-width'" [target]="'_blank'">View Code</a></span></p> 
+  <mat-grid-list cols="1" rowHeight="450px">
+      <mat-grid-tile>
+          <ngxdatagrid [rows]="dataArray" [forceColumnWidth]="true" [columns]="cols" [gridHeight]="350" [headerRowHeight]="30" [rowHeight]="30" [gridWidth]="900"></ngxdatagrid>
+      </mat-grid-tile>
+  </mat-grid-list>
+</mat-card>
+
+

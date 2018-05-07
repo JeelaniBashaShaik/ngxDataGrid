@@ -1,30 +1,33 @@
+<ng-template #checkboxCell let-row="row" let-trackingIndex = "row.trackingIndex"><input type="checkbox" [style.cursor]="'pointer'" [checked]="row.checked" (change)="multiSelectRow($event.target,row,trackingIndex)"></ng-template>
 
-<ng-template #checkboxCell let-row="row" let-trackingIndex = "row.trackingIndex"><input type="checkbox" [checked]="row.checked" (change)="selectRow($event.target,row,trackingIndex)"></ng-template>
+<ng-template #radioCell let-row="row" let-trackingIndex = "row.trackingIndex"><input type="radio" [style.cursor]="'pointer'" [checked]="row.checked" (change)="singleSelectRow($event.target,row,trackingIndex)"></ng-template>
 
  <ng-template #normalCellTemplate let-row="row" let-column="column">
   {{row[column.name]}}
   </ng-template>
 
-<ng-container *ngTemplateOutlet="mainGrid;context:{gridRows:rows}"></ng-container>
+<ng-container *ngTemplateOutlet="mainGrid;context:{gridRows:gridRows}"></ng-container>
 
 <ng-template #mainGrid let-gridRows="gridRows">
- <div [style.width]="gridWidth + 'px'" [style.height]="gridHeight + 'px'"  [style.border]="'1px solid lightgrey'">
-  <div [style.width]="headerRowWidth+ 'px'" [style.background-color]="'orange'" [style.position]="'absolute'" [style.border-bottom]="'1px solid lightgrey'">
-    <span *ngFor="let column of columns;let first=first;let columnIndex=index" [draggable]="isDraggable" (dragstart)="dragStart($event,columnIndex)" (dragover)="allowDrop($event)" (drop)="drop($event,columnIndex)" [style.line-height]="headerRowHeight+'px'" class="headerCell" [style.height]="headerRowHeight+ 'px'" 
-    [ngClass]={firstCell:first,intermediateCell:!first} [style.width]="column.width+'px'"><span class="headerName" (click)="sort(column.name)">{{resolveName(column.name)}}</span></span>
+ <div [style.width]="gridWidth + 'px'" [style.height]="gridHeight + 'px'"  [style.border]="'1px solid lightgrey'" style="position:relative;overflow-y:hidden;overflow-x:auto">
+  <div [style.width]="rowWidth+ 'px'" [style.height]="headerRowHeight+ 'px'" [style.background-color]="'orange'" [style.position]="'absolute'" [style.border-bottom]="'1px solid lightgrey'">
+    <span *ngFor="let column of columns;let first=first;let columnIndex=index" [style.left]="column.left+'px'" [style.line-height]="headerRowHeight+'px'" class="headerCell" [style.height]="headerRowHeight+ 'px'" 
+    [ngClass]={firstCell:first,intermediateCell:!first} [style.width]="column.width+'px'"><span class="headerName" (click)="callSort(column.name)">{{resolveName(column.name)}}</span></span>
   </div>
-  <div [style.margin-top]="headerRowHeight+'px'" style="overflow-y:overlay" [style.height]="gridHeight-headerRowHeight + 'px'" >
-    <div *ngFor="let row of gridRows;let even=even;let odd=odd;" class="gridRow" [ngClass]={evenRow:even,oddRow:odd}>
-      <span class="gridCell" *ngFor="let column of columns;let first=first;" [ngClass]={firstCellOfRow:first,intermediateCellOfRow:!first} [style.width]="column.width+'px'">
+  <div [style.margin-top]="headerRowHeight+'px'" [style.width]="rowWidth+'px'" style="overflow-y:overlay" [style.position]="'relative'" [style.height]="gridHeight-headerRowHeight + 'px'" (scroll)="changeInView($event.target.scrollTop)" >
+      <div style="opacity:0;top:0px;width:30px;position:absolute" [style.height]="(rows.length*rowHeight)+'px'"></div>
+    <div *ngFor="let row of gridRows;let even=even;let odd=odd;let index=index" [style.width]="rowWidth+'px'"  [style.position]="'absolute'" [style.top]="(row.top+index)+'px'" [style.height]="rowHeight+'px'" class="gridRow" [ngClass]="{evenRow:even && !row.checked,oddRow:odd && !row.checked,selectedRow:row.checked}">
+      <span class="gridCell" *ngFor="let column of columns;let first=first;" [ngClass]={firstCellOfRow:first,intermediateCellOfRow:!first} [style.line-height]="rowHeight+'px'" [style.width]="column.width+'px'">
         <ng-container *ngIf="column.name == 'checkboxColumn'">
             <ng-container *ngTemplateOutlet="checkboxCell;context:{row:row}"></ng-container>
         </ng-container>
+        <ng-container *ngIf="column.name == 'radioColumn'">
+          <ng-container *ngTemplateOutlet="radioCell;context:{row:row}"></ng-container>
+      </ng-container>
         <ng-container *ngTemplateOutlet="column.cellTemplate;context:{row:row,column:column}"></ng-container>
       </span>
     </div>
     </div>
-
-
  </div>
 </ng-template>
 
