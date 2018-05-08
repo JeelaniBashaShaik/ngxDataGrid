@@ -16,6 +16,8 @@ import { VirtualScrollComponent } from './examples/virtual-scroll/virtual-scroll
 import { DocComponent } from './doc/doc.component';
 import { SingleSelectComponent } from './examples/single-select/single-select.component';
 import { CustomWidthComponent } from './examples/custom-width/custom-width.component';
+import { ChangeLogComponent } from './change-log/change-log.component';
+import { TextAlignComponent } from './examples/text-align/text-align.component';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { CustomWidthComponent } from './examples/custom-width/custom-width.compo
     VirtualScrollComponent,
     DocComponent,
     SingleSelectComponent,
-    CustomWidthComponent
+    CustomWidthComponent,
+    ChangeLogComponent,
+    TextAlignComponent
   ],
   imports: [
     BrowserModule,

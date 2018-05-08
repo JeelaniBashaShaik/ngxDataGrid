@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgxdatagridComponent } from './ngxdatagrid/ngxdatagrid.component';
 import { AppComponent } from './app.component';
 import { DocComponent } from './doc/doc.component';
+import { ChangeLogComponent } from './change-log/change-log.component';
 import { BasicExampleComponent } from './examples/basic/basic-example.component';
 import { TemplateRefExampleComponent } from './examples/templateRef/template-ref-example.component';
 import { MultiSelectComponent } from './examples/multi-select/multi-select.component';
@@ -13,10 +14,12 @@ import { FilterGridComponent } from './examples/filter-grid/filter-grid.componen
 import { VirtualScrollComponent } from './examples/virtual-scroll/virtual-scroll.component';
 import { SingleSelectComponent } from './examples/single-select/single-select.component';
 import { CustomWidthComponent } from './examples/custom-width/custom-width.component';
+import { TextAlignComponent } from './examples/text-align/text-align.component';
 
 const routes: Routes = [
   { path: '', component: DocComponent },
   { path: 'doc', component: DocComponent },
+  { path: 'changeLog', component:ChangeLogComponent },
   { path: 'basic', component:BasicExampleComponent },
   { path: 'templateRef', component:TemplateRefExampleComponent },
   { path: 'multiSelect', component:MultiSelectComponent },
@@ -25,7 +28,8 @@ const routes: Routes = [
   { path: 'filterGrid', component:FilterGridComponent },
   { path: 'virtualScroll', component:VirtualScrollComponent },
   { path: 'singleSelect', component:SingleSelectComponent },
-  { path: 'customWidth', component:CustomWidthComponent }
+  { path: 'customWidth', component:CustomWidthComponent },
+  { path: 'textAlign', component:TextAlignComponent }
 ];
 
 @NgModule({

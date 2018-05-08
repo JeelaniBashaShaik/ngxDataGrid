@@ -3,7 +3,7 @@
 <ng-template #radioCell let-row="row" let-trackingIndex = "row.trackingIndex"><input type="radio" [style.cursor]="'pointer'" [checked]="row.checked" (change)="singleSelectRow($event.target,row,trackingIndex)"></ng-template>
 
  <ng-template #normalCellTemplate let-row="row" let-column="column">
-  {{row[column.name]}}
+  <span class="cellPadding">{{row[column.name]}}</span>
   </ng-template>
 
 <ng-container *ngTemplateOutlet="mainGrid;context:{gridRows:gridRows}"></ng-container>
@@ -17,7 +17,7 @@
   <div [style.margin-top]="headerRowHeight+'px'" [style.width]="rowWidth+'px'" style="overflow-y:overlay" [style.position]="'relative'" [style.height]="gridHeight-headerRowHeight + 'px'" (scroll)="changeInView($event.target.scrollTop)" >
       <div style="opacity:0;top:0px;width:30px;position:absolute" [style.height]="(rows.length*rowHeight)+'px'"></div>
     <div *ngFor="let row of gridRows;let even=even;let odd=odd;let index=index" [style.width]="rowWidth+'px'"  [style.position]="'absolute'" [style.top]="(row.top+index)+'px'" [style.height]="rowHeight+'px'" class="gridRow" [ngClass]="{evenRow:even && !row.checked,oddRow:odd && !row.checked,selectedRow:row.checked}">
-      <span class="gridCell" *ngFor="let column of columns;let first=first;" [ngClass]={firstCellOfRow:first,intermediateCellOfRow:!first} [style.line-height]="rowHeight+'px'" [style.width]="column.width+'px'">
+      <span class="gridCell" *ngFor="let column of columns;let first=first;" [ngClass]={firstCellOfRow:first,intermediateCellOfRow:!first} [style.line-height]="rowHeight+'px'" [style.text-align]="column.textAlign" [style.width]="column.width+'px'">
         <ng-container *ngIf="column.name == 'checkboxColumn'">
             <ng-container *ngTemplateOutlet="checkboxCell;context:{row:row}"></ng-container>
         </ng-container>

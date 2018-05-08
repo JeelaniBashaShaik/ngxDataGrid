@@ -44,3 +44,7 @@ input[type="checkbox"] {
  .selectedRow{
     background-color: rgb(181, 247, 201)
  }
+ .cellPadding{
+     padding-left:5px;
+     padding-right:5px;
+ }
