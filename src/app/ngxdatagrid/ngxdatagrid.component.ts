@@ -218,4 +218,15 @@ export class NgxdatagridComponent implements OnInit {
       })
       this.gridRows = [...itemsToReturn];   
     }
+    
+    headerCheckboxChecked({checked}){
+      if(checked){   // if row is checked, push it into selected array
+        this.rows.map(row=>row.checked = true);
+        this.selectedRows = this.rows;
+      }else{         // if row is unchecked, remove it from the selected array
+        this.rows.map(row=>row.checked = false);
+        this.selectedRows = [];
+      }
+      this.selectedData.emit(this.selectedRows);
+    }
 }
