@@ -220,10 +220,10 @@ export class NgxdatagridComponent implements OnInit {
     }
     
     headerCheckboxChecked({checked}){
-      if(checked){   // if row is checked, push it into selected array
+      if(checked){    // if row is checked, push it into selected array
         this.rows.map(row=>row.checked = true);
         this.selectedRows = this.rows;
-      }else{         // if row is unchecked, remove it from the selected array
+      }else{          // if row is unchecked, remove it from the selected array
         this.rows.map(row=>row.checked = false);
         this.selectedRows = [];
       }

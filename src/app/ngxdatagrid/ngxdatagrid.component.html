@@ -12,7 +12,7 @@
  <div [style.width]="gridWidth + 'px'" [style.height]="gridHeight + 'px'"  [style.border]="'1px solid lightgrey'" style="position:relative;overflow-y:hidden;overflow-x:auto">
   <div [style.width]="rowWidth+ 'px'" [style.height]="headerRowHeight+ 'px'" [style.background-color]="'orange'" [style.position]="'absolute'" [style.border-bottom]="'1px solid lightgrey'">
     <span *ngFor="let column of columns;let first=first;let columnIndex=index" [style.left]="column.left+'px'" [style.line-height]="headerRowHeight+'px'" class="headerCell" [style.height]="headerRowHeight+ 'px'" 
-    [ngClass]={firstCell:first,intermediateCell:!first} [style.width]="column.width+'px'"><span *ngIf="selectionType && column.name == 'checkboxColumn'"><input type="checkbox" [style.cursor]="'pointer'" (change)="headerCheckboxChecked($event.target)"></span><span class="headerName" (click)="callSort(column.name)">{{resolveName(column.name)}}</span></span>
+    [ngClass]={firstCell:first,intermediateCell:!first} [style.width]="column.width+'px'"><span *ngIf="selectionType && column.name == 'checkboxColumn'"><input type="checkbox" [style.cursor]="'pointer'" (change) = "headerCheckboxChecked($event.target)"></span><span class="headerName" (click)="callSort(column.name)">{{resolveName(column.name)}}</span></span>
   </div>
   <div [style.margin-top]="headerRowHeight+'px'" [style.width]="rowWidth+'px'" style="overflow-y:overlay" [style.position]="'relative'" [style.height]="gridHeight-headerRowHeight + 'px'" (scroll)="changeInView($event.target.scrollTop)" >
       <div style="opacity:0;top:0px;width:30px;position:absolute" [style.height]="(rows.length*rowHeight)+'px'"></div>
