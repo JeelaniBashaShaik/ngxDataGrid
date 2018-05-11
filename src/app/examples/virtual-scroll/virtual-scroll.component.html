@@ -2,7 +2,7 @@
     <p> Virtual Scroll example for ngxdatagrid. No matter how many rows, there is no performance lag in rendering<span [style.float]="'right'"> <a [href]="'https://github.com/JeelaniBashaShaik/ngxDataGrid/tree/master/src/app/examples/virtual-scroll'" [target]="'_blank'">View Code</a></span></p>
     <mat-grid-list cols="1" rowHeight="450px">
         <mat-grid-tile>
-            <ngxdatagrid [rows]="dataArray" [rowHeight]="30" [columns]="cols" [gridHeight]="'350'" [headerRowHeight]="'30'" [forceColumnWidth]="false" [gridWidth]="'900'"></ngxdatagrid>
+            <ngxdatagrid [rows]="dataArray" [selectionType]="'multiple'" [rowHeight]="30" [columns]="cols" [gridHeight]="'350'" [headerRowHeight]="'30'" [forceColumnWidth]="false" [gridWidth]="'900'"></ngxdatagrid>
         </mat-grid-tile>
     </mat-grid-list>
     <p>Total Rows: {{dataArray.length}} </p>

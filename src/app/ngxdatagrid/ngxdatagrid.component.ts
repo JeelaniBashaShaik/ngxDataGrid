@@ -36,6 +36,8 @@ export class NgxdatagridComponent implements OnInit {
   viewPortItemStartIndex:number=0;
   viewPortItemEndIndex:number=0;
   lastScrollTop:number=0;
+  lastSelectedIndex:number=0;
+
   constructor() { }
 
   ngOnInit() {
@@ -89,8 +91,6 @@ export class NgxdatagridComponent implements OnInit {
       row['checked'] = false;
     })
     this.viewPortItemEndIndex = this.countOfItemsInViewPort;
-    console.log(this.columns);
-    console.log(this.rowWidth,"rowWidth");
   }
 
   ngOnChanges(){
@@ -112,26 +112,49 @@ export class NgxdatagridComponent implements OnInit {
   }
 
 
-  multiSelectRow({checked},row,trackingIndex){
-    row.checked = checked;
-    if(checked){   // if row is checked, push it into selected array
-      this.selectedRows = [row,...this.selectedRows];
-    }else{         // if row is unchecked, remove it from the selected array
-      this.selectedRows = this.selectedRows.filter(row=>row.trackingIndex != trackingIndex);
+  multiSelectRow({checked},row,trackingIndex,{shiftKey}){
+    if(!shiftKey){
+      row.checked = checked;
+      if(checked){   // if row is checked, push it into selected array
+        this.selectedRows = [row,...this.selectedRows];
+      }else{         // if row is unchecked, remove it from the selected array
+        this.selectedRows = this.selectedRows.filter(row=>row.trackingIndex != trackingIndex);
+      }
+    }else{
+      let start = Math.min(trackingIndex,this.lastSelectedIndex);
+      let end = Math.max(this.lastSelectedIndex,trackingIndex);
+      this.rows.map((row,index)=>{
+        if(index >= start && index <= end){
+          row.checked = checked;
+          if(checked){  
+            this.selectedRows = [row,...this.selectedRows];
+          }else{
+            this.selectedRows = this.selectedRows.filter(row=>row.trackingIndex != index);
+          }
+        }
+      })
+      this.selectedRows = this.selectedRows.filter((row, index, selfArray) =>
+        index === selfArray.findIndex((item) => (
+          item.trackingIndex === row.trackingIndex
+        ))
+      ) 
     }
+    this.lastSelectedIndex = trackingIndex;
     this.selectedData.emit(this.selectedRows);
   }
 
   singleSelectRow({checked},row,trackingIndex){
-    this.gridRows.map(row=>{
-      if(row.trackingIndex == trackingIndex){
-        this.selectedRows = row;
-        row.checked = true;
-      }else{
-        row.checked = false;
-      }
-    })
-    this.selectedData.emit(this.selectedRows);
+    if(this.selectionType == 'single'){
+      this.gridRows.map(row=>{
+        if(row.trackingIndex == trackingIndex){
+          this.selectedRows = row;
+          row.checked = true;
+        }else{
+          row.checked = false;
+        }
+      })
+      this.selectedData.emit(this.selectedRows);
+    }
   }
 
     dragStart(event,columnIndex){
@@ -227,6 +250,7 @@ export class NgxdatagridComponent implements OnInit {
         this.rows.map(row=>row.checked = false);
         this.selectedRows = [];
       }
+      this.lastSelectedIndex = 0;
       this.selectedData.emit(this.selectedRows);
     }
 }
