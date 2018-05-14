@@ -15,6 +15,7 @@ import { VirtualScrollComponent } from './examples/virtual-scroll/virtual-scroll
 import { SingleSelectComponent } from './examples/single-select/single-select.component';
 import { CustomWidthComponent } from './examples/custom-width/custom-width.component';
 import { TextAlignComponent } from './examples/text-align/text-align.component';
+import { ToolbarComponent } from './examples/toolbar/toolbar.component';
 
 const routes: Routes = [
   { path: '', component: DocComponent },
@@ -29,7 +30,8 @@ const routes: Routes = [
   { path: 'virtualScroll', component:VirtualScrollComponent },
   { path: 'singleSelect', component:SingleSelectComponent },
   { path: 'customWidth', component:CustomWidthComponent },
-  { path: 'textAlign', component:TextAlignComponent }
+  { path: 'textAlign', component:TextAlignComponent },
+  { path: 'toolbar', component:ToolbarComponent }
 ];
 
 @NgModule({

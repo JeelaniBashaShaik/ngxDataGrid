@@ -48,3 +48,18 @@ input[type="checkbox"] {
      padding-left:5px;
      padding-right:5px;
  }
+ #searchBox{
+     border:1px solid lightgrey;
+     border-top:1px solid lightgrey;
+     border-left:1px solid lightgrey;
+     border-right:1px solid lightgrey;
+     border-bottom:none;
+     line-height:28px;
+ }
+
+ #searchInput{
+     border:1px solid orange;
+     border-radius:2px;
+     padding-left:10px;
+     margin-left:5px;
+ }

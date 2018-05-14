@@ -9,25 +9,40 @@
 <ng-container *ngTemplateOutlet="mainGrid;context:{gridRows:gridRows}"></ng-container>
 
 <ng-template #mainGrid let-gridRows="gridRows">
- <div [style.width]="gridWidth + 'px'" [style.height]="gridHeight + 'px'"  [style.border]="'1px solid lightgrey'" style="position:relative;overflow-y:hidden;overflow-x:auto">
-  <div [style.width]="rowWidth+ 'px'" [style.height]="headerRowHeight+ 'px'" [style.background-color]="'orange'" [style.position]="'absolute'" [style.border-bottom]="'1px solid lightgrey'">
-    <span *ngFor="let column of columns;let first=first;let columnIndex=index" [style.left]="column.left+'px'" [style.line-height]="headerRowHeight+'px'" class="headerCell" [style.height]="headerRowHeight+ 'px'" 
-    [ngClass]={firstCell:first,intermediateCell:!first} [style.width]="column.width+'px'"><span *ngIf="selectionType && column.name == 'checkboxColumn'"><input type="checkbox" [checked]="selectedRows.length && selectedRows.length == rows.length" [style.cursor]="'pointer'" (change) = "headerCheckboxChecked($event.target)"></span><span class="headerName" (click)="callSort(column.name)">{{resolveName(column.name)}}</span></span>
+  <div *ngIf="showToolbar" [style.width.px]="gridWidth" [style.height.px]="30" [style.background-color]="'orange'" id="searchBox">
+    <input type="text" *ngIf="toolbarOptions.canSearch" (keyup)="searchGrid($event.target.value)" id="searchInput" [placeholder]=toolbarOptions.searchPlaceholder>
   </div>
-  <div [style.margin-top]="headerRowHeight+'px'" [style.width]="rowWidth+'px'" style="overflow-y:overlay" [style.position]="'relative'" [style.height]="gridHeight-headerRowHeight + 'px'" (scroll)="changeInView($event.target.scrollTop)" >
-      <div style="opacity:0;top:0px;width:30px;position:absolute" [style.height]="(rows.length*rowHeight)+'px'"></div>
-    <div *ngFor="let row of gridRows;let even=even;let odd=odd;let index=index" (click)="singleSelectRow($event.target,row,row.trackingIndex)" [style.width]="rowWidth+'px'"  [style.position]="'absolute'" [style.top]="(row.top+index)+'px'" [style.height]="rowHeight+'px'" class="gridRow" [ngClass]="{evenRow:even && !row.checked,oddRow:odd && !row.checked,selectedRow:row.checked}">
-      <span class="gridCell" *ngFor="let column of columns;let first=first;" [ngClass]={firstCellOfRow:first,intermediateCellOfRow:!first} [style.line-height]="rowHeight+'px'" [style.text-align]="column.textAlign" [style.width]="column.width+'px'">
-        <ng-container *ngIf="column.name == 'checkboxColumn'">
-            <ng-container *ngTemplateOutlet="checkboxCell;context:{row:row}"></ng-container>
-        </ng-container>
-        <ng-container *ngIf="column.name == 'radioColumn'">
-          <ng-container *ngTemplateOutlet="radioCell;context:{row:row}"></ng-container>
-      </ng-container>
-        <ng-container *ngTemplateOutlet="column.cellTemplate;context:{row:row,column:column}"></ng-container>
+  <div [style.width]="gridWidth + 'px'" [style.height]="gridHeight + 'px'" [style.border]="'1px solid lightgrey'" style="position:relative;overflow-y:hidden;overflow-x:auto">
+    <div [style.width]="rowWidth+ 'px'" [style.height]="headerRowHeight+ 'px'" [style.background-color]="'orange'" [style.position]="'absolute'"
+      [style.border-bottom]="'1px solid lightgrey'">
+      <span *ngFor="let column of columns;let first=first;let columnIndex=index" [style.left]="column.left+'px'" [style.line-height]="headerRowHeight+'px'"
+        class="headerCell headerCellStyle" [style.height]="headerRowHeight+ 'px'" [ngClass]={firstCell:first,intermediateCell:!first}
+        [style.width]="column.width+'px'">
+        <span *ngIf="selectionType && column.name == 'checkboxColumn'">
+          <input type="checkbox" [checked]="selectedRows.length && selectedRows.length == rows.length" [style.cursor]="'pointer'"
+            (change)="headerCheckboxChecked($event.target)">
+        </span>
+        <span class="headerName" (click)="callSort(column.name)">{{resolveName(column.name)}}</span>
       </span>
     </div>
+    <div [style.margin-top]="headerRowHeight+'px'" [style.width]="rowWidth+'px'" style="overflow-y:overlay" [style.position]="'relative'"
+      [style.height]="gridHeight-headerRowHeight + 'px'" (scroll)="changeInView($event.target.scrollTop)">
+      <div style="opacity:0;top:0px;width:30px;position:absolute" [style.height]="(rows.length*rowHeight)+'px'"></div>
+      <div *ngFor="let row of gridRows;let even=even;let odd=odd;let index=index" (click)="singleSelectRow($event.target,row,row.trackingIndex)"
+        [style.width]="rowWidth+'px'" [style.position]="'absolute'" [style.top]="(row.top+index)+'px'" [style.height]="rowHeight+'px'"
+        class="gridRow" [ngClass]="{evenRow:even && !row.checked,oddRow:odd && !row.checked,selectedRow:row.checked}">
+        <span class="gridCell" *ngFor="let column of columns;let first=first;" [ngClass]={firstCellOfRow:first,intermediateCellOfRow:!first}
+          [style.line-height]="rowHeight+'px'" [style.text-align]="column.textAlign" [style.width]="column.width+'px'">
+          <ng-container *ngIf="column.name == 'checkboxColumn'">
+            <ng-container *ngTemplateOutlet="checkboxCell;context:{row:row}"></ng-container>
+          </ng-container>
+          <ng-container *ngIf="column.name == 'radioColumn'">
+            <ng-container *ngTemplateOutlet="radioCell;context:{row:row}"></ng-container>
+          </ng-container>
+          <ng-container *ngTemplateOutlet="column.cellTemplate;context:{row:row,column:column}"></ng-container>
+        </span>
+      </div>
     </div>
- </div>
+  </div>
 </ng-template>
 

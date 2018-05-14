@@ -3,7 +3,7 @@ import { Component, OnInit,Input,Output,ViewChild,EventEmitter } from '@angular/
 @Component({
   selector: 'ngxdatagrid',
   templateUrl: './ngxdatagrid.component.html',
-  styleUrls: ['./ngxdatagrid.component.css']
+  styleUrls: ['./ngxdatagrid.component.css','ngxdatagridStyle.css']
 })
 export class NgxdatagridComponent implements OnInit {
 
@@ -16,9 +16,10 @@ export class NgxdatagridComponent implements OnInit {
   @Input('selectionType') selectionType:string;
   @Input('draggableColumns') isDraggable:boolean=false;
   @Input('forceColumnWidth') forceColumnWidth:boolean;
+  @Input('showToolbar') showToolbar:boolean=false;
+  @Input('toolbarOptions') toolbarOptions:any;
   @Output()  selectedData: EventEmitter<any> = new EventEmitter();
   @ViewChild('normalCellTemplate') normalCellTemplate:any;
-  
   columnWidth:any;
   isCheckboxable:boolean = false;
   rowsCopy=[];                                      // backup for sorting and search
@@ -37,7 +38,6 @@ export class NgxdatagridComponent implements OnInit {
   viewPortItemEndIndex:number=0;
   lastScrollTop:number=0;
   lastSelectedIndex:number=0;
-
   constructor() { }
 
   ngOnInit() {
@@ -69,7 +69,7 @@ export class NgxdatagridComponent implements OnInit {
         column['left']=0;
         leftToAdd += Number(column['width']);
       }if(index != 0){
-        column['left'] = leftToAdd+index;
+        column['left'] = leftToAdd+index-1;
         leftToAdd += Number(column['width']);
       }      
     })
@@ -100,7 +100,7 @@ export class NgxdatagridComponent implements OnInit {
       row['checked'] = false;
     })
     this.rowsCopy = JSON.parse(JSON.stringify(this.rows));
-    this.gridRows = [...this.rows];
+   // this.gridRows = [...this.rows];
   }
   
   // convert column name to more readable form
@@ -252,5 +252,35 @@ export class NgxdatagridComponent implements OnInit {
       }
       this.lastSelectedIndex = 0;
       this.selectedData.emit(this.selectedRows);
+    }
+
+    searchGrid(query){
+      if(!query){
+        this.rows = [...this.rowsCopy];
+      }else{
+        query = query.toString().toLowerCase();
+          let arrayToReturn =   this.rowsCopy.filter(row=>{
+          let columns = Object.keys(row);
+              return (columns.map(column=>{
+                  if(column != 'checked' && column != 'top' && column != 'trackingIndex') 
+                    return row[column]
+              }).toString().toLowerCase().indexOf(query)) > -1;
+        })
+        this.rows = arrayToReturn;
+      }
+      console.log(this.rows);
+      this.countOfItemsInViewPort = Math.ceil((this.gridHeight-this.headerRowHeight)/this.rowHeight);
+      this.totalScrollHeight = (this.rows.length * this.rowHeight);
+      this.gridRows = this.rows.filter((row,index)=>{
+        if(index>=0 && index<=this.countOfItemsInViewPort+1){
+          return row;
+        }
+      })
+      this.gridRows.map((row,index)=>{
+        row['top'] = (index * this.rowHeight);
+        row['trackingIndex'] = index;
+        row['checked'] = false;
+      })
+      this.viewPortItemEndIndex = this.countOfItemsInViewPort;
     }
 }

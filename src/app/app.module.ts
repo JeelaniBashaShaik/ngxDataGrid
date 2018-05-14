@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SharedModule } from './shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -18,6 +18,7 @@ import { SingleSelectComponent } from './examples/single-select/single-select.co
 import { CustomWidthComponent } from './examples/custom-width/custom-width.component';
 import { ChangeLogComponent } from './change-log/change-log.component';
 import { TextAlignComponent } from './examples/text-align/text-align.component';
+import { ToolbarComponent } from './examples/toolbar/toolbar.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { TextAlignComponent } from './examples/text-align/text-align.component';
     SingleSelectComponent,
     CustomWidthComponent,
     ChangeLogComponent,
-    TextAlignComponent
+    TextAlignComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,7 @@ import { TextAlignComponent } from './examples/text-align/text-align.component';
     SharedModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
