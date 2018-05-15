@@ -15,6 +15,7 @@ export class VirtualScrollComponent implements OnInit {
       this.dataArray = [...this.dataArray,obj];
     }
   }
+  toolbarOptions={searchPlaceholder:'abc...',csvDelimiter:'|',fileName:'123'};
 
   dataArray=[];
   cols=[

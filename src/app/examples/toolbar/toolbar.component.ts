@@ -12,8 +12,7 @@ export class ToolbarComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.gridToolbarOptions = {...this.gridToolbarOptions,canSearch:true};
-    this.gridToolbarOptions = {...this.gridToolbarOptions,searchPlaceholder:"Search...."};
+    this.gridToolbarOptions = {searchPlaceholder:"Search....",csvDelimiter:'|',fileName:'SampleFile'};
   }
   cols=[
     {name:"userId"},

@@ -10,7 +10,10 @@
 
 <ng-template #mainGrid let-gridRows="gridRows">
   <div *ngIf="showToolbar" [style.width.px]="gridWidth" [style.height.px]="30" [style.background-color]="'orange'" id="searchBox">
-    <input type="text" *ngIf="toolbarOptions.canSearch" (keyup)="searchGrid($event.target.value)" id="searchInput" [placeholder]=toolbarOptions.searchPlaceholder>
+    <input type="text" (keyup)="searchGrid($event.target.value)" id="searchInput" [placeholder]=toolbarOptions.searchPlaceholder>
+    <div [style.float]="'right'" [style.height.px]="30">
+      <img src="/assets/csv.png" height="25" width="25" title="Csv Download" [style.cursor]="'pointer'" [style.padding-top.px]="2" (click)="downloadFile(toolbarOptions.fileName,toolbarOptions.csvDelimiter)">
+    </div>
   </div>
   <div [style.width]="gridWidth + 'px'" [style.height]="gridHeight + 'px'" [style.border]="'1px solid lightgrey'" style="position:relative;overflow-y:hidden;overflow-x:auto">
     <div [style.width]="rowWidth+ 'px'" [style.height]="headerRowHeight+ 'px'" [style.background-color]="'orange'" [style.position]="'absolute'"
@@ -27,7 +30,7 @@
     </div>
     <div [style.margin-top]="headerRowHeight+'px'" [style.width]="rowWidth+'px'" style="overflow-y:overlay" [style.position]="'relative'"
       [style.height]="gridHeight-headerRowHeight + 'px'" (scroll)="changeInView($event.target.scrollTop)">
-      <div style="opacity:0;top:0px;width:30px;position:absolute" [style.height]="(rows.length*rowHeight)+'px'"></div>
+      <div style="opacity:0;top:0px;width:30px;position:absolute" id="opaqueDiv" [style.height]="(rows.length*rowHeight)+'px'"></div>
       <div *ngFor="let row of gridRows;let even=even;let odd=odd;let index=index" (click)="singleSelectRow($event.target,row,row.trackingIndex)"
         [style.width]="rowWidth+'px'" [style.position]="'absolute'" [style.top]="(row.top+index)+'px'" [style.height]="rowHeight+'px'"
         class="gridRow" [ngClass]="{evenRow:even && !row.checked,oddRow:odd && !row.checked,selectedRow:row.checked}">

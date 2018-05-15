@@ -17,7 +17,7 @@ export class NgxdatagridComponent implements OnInit {
   @Input('draggableColumns') isDraggable:boolean=false;
   @Input('forceColumnWidth') forceColumnWidth:boolean;
   @Input('showToolbar') showToolbar:boolean=false;
-  @Input('toolbarOptions') toolbarOptions:any;
+  @Input('toolbarOptions') toolbarOptions={csvDelimiter:',',fileName:'gridData'};
   @Output()  selectedData: EventEmitter<any> = new EventEmitter();
   @ViewChild('normalCellTemplate') normalCellTemplate:any;
   columnWidth:any;
@@ -77,6 +77,8 @@ export class NgxdatagridComponent implements OnInit {
 
     this.rows.map((row,index)=>{
       row['top'] = (index * this.rowHeight);
+      row['trackingIndex'] = index;
+      row['checked'] = false;
     })
     this.rowsCopy = JSON.parse(JSON.stringify(this.rows));
     this.countOfItemsInViewPort = Math.ceil((this.gridHeight-this.headerRowHeight)/this.rowHeight);
@@ -94,13 +96,13 @@ export class NgxdatagridComponent implements OnInit {
   }
 
   ngOnChanges(){
-    this.rows.map((row,index)=>{
+   /*  this.rows.map((row,index)=>{
       row['top'] = (index * this.rowHeight);
       row['trackingIndex'] = index;
       row['checked'] = false;
     })
-    this.rowsCopy = JSON.parse(JSON.stringify(this.rows));
-   // this.gridRows = [...this.rows];
+    this.rowsCopy = JSON.parse(JSON.stringify(this.rows)); */
+   
   }
   
   // convert column name to more readable form
@@ -179,6 +181,7 @@ export class NgxdatagridComponent implements OnInit {
     }
 
     changeInView(event){
+      console.log("ive been called",event);
       this.countOfItemsScrolled = Math.ceil(event/this.rowHeight);
       this.viewPortItemStartIndex = this.countOfItemsScrolled;
       this.viewPortItemEndIndex = this.viewPortItemStartIndex + this.countOfItemsInViewPort;
@@ -268,19 +271,62 @@ export class NgxdatagridComponent implements OnInit {
         })
         this.rows = arrayToReturn;
       }
-      console.log(this.rows);
       this.countOfItemsInViewPort = Math.ceil((this.gridHeight-this.headerRowHeight)/this.rowHeight);
       this.totalScrollHeight = (this.rows.length * this.rowHeight);
+      this.rows.map((row,index)=>{
+        row['top'] = (index * this.rowHeight);
+        row['trackingIndex'] = index;
+        row['checked'] = false;
+      })
       this.gridRows = this.rows.filter((row,index)=>{
         if(index>=0 && index<=this.countOfItemsInViewPort+1){
           return row;
         }
       })
-      this.gridRows.map((row,index)=>{
-        row['top'] = (index * this.rowHeight);
-        row['trackingIndex'] = index;
-        row['checked'] = false;
-      })
-      this.viewPortItemEndIndex = this.countOfItemsInViewPort;
     }
+
+  downloadFile(fileName='gridData',delimiter=','){
+    let headers = Object.keys(this.rows[0]);
+    headers = headers.filter(header=>{
+      if(header != 'top' && header != 'trackingIndex' && header != 'checked'){
+        return header;
+      }
+    })
+    let content:string='';
+    let headerLength = headers.length;
+    headers.map((header,headerIndex)=>{
+      if(headerIndex == 0){
+        content = content + this.modifyHeaderName(header); // skipping the delimiter before first header
+      }else{
+        content = content + delimiter + this.modifyHeaderName(header);
+      }
+    })
+    content = content + '\r\n';                           // appending new line after the header row
+    this.rows.map((row,rowIndex)=>{
+      headers.map((header,headerIndex)=>{
+        if(row[header] == null || undefined){
+          row[header] = '';                              // replacing all the null and undefined values because
+        }                                                //(we dont want null or undefined to be printed in the downloaded file)
+        if(headerIndex == 0){
+          content = content + row[header];
+        }else{
+          content = content + delimiter + row[header];
+        }
+      })
+      content = content + '\r\n';
+    })
+    let downloadLink = document.createElement("a");     // creating a temporary anchor element 
+    let blob = new Blob([content],{type : "text/plain"});
+    let url = URL.createObjectURL(blob);
+    downloadLink.href = url;
+    downloadLink.download = fileName + '.csv';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    //console.log(this.rows);
+  }
+
+  modifyHeaderName(header:string){
+    return header.replace(/([A-Z])/g, ' $1').split(' ').join('_').toUpperCase();
+  }
 }

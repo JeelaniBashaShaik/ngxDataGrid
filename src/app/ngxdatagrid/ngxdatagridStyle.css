@@ -1,5 +1,5 @@
-/* .headerCellStyle {
-    background-color: green;
+.headerCellStyle {
+    background-color: orange;
     color:white;
 }
 .gridRow:hover{
@@ -18,4 +18,3 @@
 .selectedRow{
     background-color: rgb(181, 247, 201)
  }
- */
