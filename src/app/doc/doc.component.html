@@ -110,7 +110,7 @@
                   showToolbar
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <p>Accepts a boolean. If set to true, renders a toolbar which contains search functionality on whole grid data.</p>
+              <p>Accepts a boolean. If set to true, renders a toolbar which contains search functionality, csv, excel download of whole grid data.</p>
           </mat-expansion-panel>
       </mat-accordion>
       <div [style.height]="'10px'"></div>
@@ -121,11 +121,13 @@
                   toolbarOptions
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <p>As of now, takes two properties</p>
+              <p>As of now, takes three properties</p>
               <ul>
                 <li>searchPlaceholder: Accepts a string. It is the placeholder text to be shown in the search input textbox</li>
                 <li>csvDelimiter: Accepts a string. In most of the cases, csv files come with '|' or ',' as delimiters. If not mentioned, ',' is taken as default</li>
-                <li>fileName: Accepts a string. This is the name that will be appended while downloading the file. If not mentioned, file will be named as 'gridData.csv' by default</li>
+                <li>fileName: Accepts a string. This is the name that will be appended while downloading the file. If not mentioned, file will be named as 'gridData.csv' by default.
+                  And dont forget to add an 'csv.png' image to ur assets folder.
+                </li>
               </ul>
           </mat-expansion-panel>
       </mat-accordion>
@@ -159,7 +161,7 @@
         <p><span [style.color]="'green'" [style.font-size]="'18px'">Virtual Scroll</span> - The grid comes with virtual-scroll by default. This technique helps to load large datasets into the grid without any perfomance lag </p>
         <p><span [style.color]="'green'" [style.font-size]="'18px'">Cell Templates</span> - The grid comes with the ability to accept cell-templates for any/all of the columns. Have a look at the examples of
         <a routerLink="/editable">Editable</a> and <a routerLink="/templateRef">Template Ref</a></p>
-        <p><span [style.color]="'green'" [style.font-size]="'18px'">Integrated Search</span> - The grid has an integrated toolbar which contains search functionality for whole grid data and Csv download. Have a look at the example of
+        <p><span [style.color]="'green'" [style.font-size]="'18px'">Integrated Toolbar</span> - The grid has an integrated toolbar which contains search functionality, Csv, Excel downloads on whole grid data. Have a look at the example of
           <a routerLink="/toolbar">Tool Bar</a></p>
     </mat-expansion-panel>
     

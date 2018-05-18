@@ -181,7 +181,6 @@ export class NgxdatagridComponent implements OnInit {
     }
 
     changeInView(event){
-      console.log("ive been called",event);
       this.countOfItemsScrolled = Math.ceil(event/this.rowHeight);
       this.viewPortItemStartIndex = this.countOfItemsScrolled;
       this.viewPortItemEndIndex = this.viewPortItemStartIndex + this.countOfItemsInViewPort;
@@ -315,7 +314,7 @@ export class NgxdatagridComponent implements OnInit {
       })
       content = content + '\r\n';
     })
-    let downloadLink = document.createElement("a");     // creating a temporary anchor element 
+    let downloadLink = document.createElement("a");    
     let blob = new Blob([content],{type : "text/plain"});
     let url = URL.createObjectURL(blob);
     downloadLink.href = url;
@@ -323,10 +322,50 @@ export class NgxdatagridComponent implements OnInit {
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
-    //console.log(this.rows);
   }
 
   modifyHeaderName(header:string){
     return header.replace(/([A-Z])/g, ' $1').split(' ').join('_').toUpperCase();
   }
+
+  excelDownload(fileName='gridData') {
+    let table = document.createElement('table');
+    let div = document.getElementById('tableToExport');
+    div.appendChild(table);
+    let cols = this.columns.filter(column=>{
+      if(column.name != 'checkboxColumn' && column.name != 'radioColumn'){
+        return column.name;
+      }
+    })
+    let _row = table.insertRow(0);
+    cols.map((column,columnIndex)=>{
+      let row_cell = _row.insertCell(columnIndex);
+      row_cell.innerHTML = this.modifyHeaderName(column.name);
+    })
+    this.rows.map((row,rowIndex)=>{
+      let _row = table.insertRow(rowIndex+1);
+      cols.map((column,columnIndex)=>{
+        let row_cell = _row.insertCell(columnIndex);
+        row_cell.innerHTML = row[column.name];
+      })
+    })
+
+    
+    let dataType = 'application/vnd.ms-excel';
+    let tableSelect = document.getElementById('tableToExport').innerHTML;
+    let filename = fileName+'.xls';
+    let downloadLink = document.createElement("a");
+    document.body.appendChild(downloadLink);
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableSelect], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        downloadLink.href = 'data:' + dataType + ', ' + tableSelect;
+        downloadLink.download = filename;
+        downloadLink.click();
+    }
+}
+
 }

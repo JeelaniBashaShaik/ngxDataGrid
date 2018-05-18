@@ -13,6 +13,7 @@
     <input type="text" (keyup)="searchGrid($event.target.value)" id="searchInput" [placeholder]=toolbarOptions.searchPlaceholder>
     <div [style.float]="'right'" [style.height.px]="30">
       <img src="/assets/csv.png" height="25" width="25" title="Csv Download" [style.cursor]="'pointer'" [style.padding-top.px]="2" (click)="downloadFile(toolbarOptions.fileName,toolbarOptions.csvDelimiter)">
+      <img src="/assets/xls.png" height="25" width="25" title="Excel Download" [style.cursor]="'pointer'" [style.padding-top.px]="2" (click)="excelDownload(toolbarOptions.fileName)">
     </div>
   </div>
   <div [style.width]="gridWidth + 'px'" [style.height]="gridHeight + 'px'" [style.border]="'1px solid lightgrey'" style="position:relative;overflow-y:hidden;overflow-x:auto">
@@ -22,7 +23,7 @@
         class="headerCell headerCellStyle" [style.height]="headerRowHeight+ 'px'" [ngClass]={firstCell:first,intermediateCell:!first}
         [style.width]="column.width+'px'">
         <span *ngIf="selectionType && column.name == 'checkboxColumn'">
-          <input type="checkbox" [checked]="selectedRows.length && selectedRows.length == rows.length" [style.cursor]="'pointer'"
+          <input type="checkbox" [checked]="selectedRows.length && selectedRows.length == rows.length" [style.margin.px]="5"
             (change)="headerCheckboxChecked($event.target)">
         </span>
         <span class="headerName" (click)="callSort(column.name)">{{resolveName(column.name)}}</span>
@@ -49,3 +50,4 @@
   </div>
 </ng-template>
 
+<div id="tableToExport" hidden></div>
