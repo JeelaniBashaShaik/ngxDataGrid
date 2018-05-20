@@ -26,7 +26,14 @@
           <input type="checkbox" [checked]="selectedRows.length && selectedRows.length == rows.length" [style.margin.px]="5"
             (change)="headerCheckboxChecked($event.target)">
         </span>
-        <span class="headerName" (click)="callSort(column.name)">{{resolveName(column.name)}}</span>
+        <span class="headerName" (click)="callSort(column.name)">{{resolveName(column.name)}}
+          <span *ngIf="isAsc && isSorted && sortingProp == column.name" class="sortIcon">
+           <span>&#8593;</span> 
+          </span>
+          <span *ngIf="!isAsc && isSorted && sortingProp == column.name" class="sortIcon">
+           <span>&#8595;</span>
+          </span>
+        </span>
       </span>
     </div>
     <div [style.margin-top]="headerRowHeight+'px'" [style.width]="rowWidth+'px'" style="overflow-y:overlay" [style.position]="'relative'"

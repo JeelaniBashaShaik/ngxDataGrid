@@ -16,6 +16,17 @@ describe('NgxdatagridComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NgxdatagridComponent);
     component = fixture.componentInstance;
+    component.rows = [
+      {"userId": 256,"id": 1,"title": "delectus","completed": false},
+      {"userId": 89,"id": 2,"title": "quis ut","completed": false},
+      {"userId": 64,"id": 3,"title": "fugiat","completed": false}
+    ];
+    component.columns = [
+      {name:"userId"},
+      {name:"id"},
+      {name:"title"},
+      {name:"completed"}
+    ];
     fixture.detectChanges();
   });
 

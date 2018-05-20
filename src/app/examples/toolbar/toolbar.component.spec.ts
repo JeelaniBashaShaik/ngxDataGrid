@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ToolbarComponent } from './toolbar.component';
+import { SharedModule } from '../../shared.module';
+import { NgxdatagridComponent } from '../../ngxdatagrid/ngxdatagrid.component';
 
 describe('ToolbarComponent', () => {
   let component: ToolbarComponent;
@@ -8,7 +10,8 @@ describe('ToolbarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ToolbarComponent ]
+      imports:[SharedModule],
+      declarations: [ ToolbarComponent ,NgxdatagridComponent]
     })
     .compileComponents();
   }));

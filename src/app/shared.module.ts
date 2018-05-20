@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -18,10 +19,10 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 @NgModule({
   imports: [
     CommonModule,MatToolbarModule,MatButtonModule,MatGridListModule,MatListModule,MatRadioModule,MatSlideToggleModule,
-    MatCheckboxModule,MatCardModule,MatDividerModule,MatSelectModule,MatProgressBarModule,MatExpansionModule
+    MatCheckboxModule,MatCardModule,MatDividerModule,MatSelectModule,MatProgressBarModule,MatExpansionModule,BrowserAnimationsModule
   ],
   declarations: [],
-  exports:[MatCheckboxModule,MatToolbarModule,MatButtonModule,MatGridListModule,MatProgressBarModule,MatExpansionModule,
+  exports:[MatCheckboxModule,MatToolbarModule,MatButtonModule,MatGridListModule,MatProgressBarModule,MatExpansionModule,BrowserAnimationsModule,
   MatListModule,MatCardModule,MatDividerModule,MatSelectModule,MatRadioModule,MatSlideToggleModule]
 })
 export class SharedModule { }

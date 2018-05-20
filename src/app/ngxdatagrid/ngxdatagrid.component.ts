@@ -25,7 +25,9 @@ export class NgxdatagridComponent implements OnInit {
   rowsCopy=[];                                      // backup for sorting and search
   gridRows=[];                                      // this array is assigned to the grid for iteration of grid rows
   gridColumns=[];
-  isAsc:boolean=false;                           
+  isAsc:boolean=false;       
+  isSorted:boolean=false;  
+  sortingProp:string;                  
   lastPropToSort:string;
   selectedRows:any=[];                              // selected rows from the grid will be stored in this array
   rowWidth:number;
@@ -242,6 +244,8 @@ export class NgxdatagridComponent implements OnInit {
         }
       })
       this.gridRows = [...itemsToReturn];   
+      this.isSorted = true;
+      this.sortingProp = prop;
     }
     
     headerCheckboxChecked({checked}){

@@ -63,3 +63,8 @@ input[type="checkbox"] {
      padding-left:10px;
      margin-left:5px;
  }
+
+ .sortIcon{
+     padding-right:5px;
+     float:right;
+ }
