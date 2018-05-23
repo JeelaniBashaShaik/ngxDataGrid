@@ -2,10 +2,17 @@
 
 <ng-template #radioCell let-row="row" let-trackingIndex = "row.trackingIndex"><input type="radio" [style.cursor]="'pointer'" [checked]="row.checked" (change)="singleSelectRow($event.target,row,trackingIndex)"></ng-template>
 
- <ng-template #normalCellTemplate let-row="row" let-column="column">
-  <span class="cellPadding">{{row[column.name]}}</span>
+ <ng-template #normalCellTemplate let-row="row" let-column="column" let-trackingIndex="row.trackingIndex">
+  <span *ngIf="column.editable">
+    <span (dblclick)="editingPropnRow[trackingIndex+'_'+column.name] = true" *ngIf="!editingPropnRow[trackingIndex+'_'+ column.name]">
+      {{row[column.name]}} 
+    </span>
+  </span>
+<span *ngIf="!column.editable">{{row[column.name]}}</span>
+<input (focusout)="editPropnRow(trackingIndex,column.name,$event.target.value)" *ngIf="editingPropnRow[trackingIndex+'_'+column.name]"
+  type="text" [value]="row[column.name]" >
   </ng-template>
-
+ 
 <ng-container *ngTemplateOutlet="mainGrid;context:{gridRows:gridRows}"></ng-container>
 
 <ng-template #mainGrid let-gridRows="gridRows">
@@ -26,7 +33,7 @@
           <input type="checkbox" [checked]="selectedRows.length && selectedRows.length == rows.length" [style.margin.px]="5"
             (change)="headerCheckboxChecked($event.target)">
         </span>
-        <span class="headerName" (click)="callSort(column.name)">{{resolveName(column.name)}}
+        <span class="headerName" (click)="callSort(column.name)">{{resolveName(column.name)}} <span *ngIf="column.editable">&#x270E;</span>
           <span *ngIf="isAsc && isSorted && sortingProp == column.name" class="sortIcon">
            <span>&#8593;</span> 
           </span>

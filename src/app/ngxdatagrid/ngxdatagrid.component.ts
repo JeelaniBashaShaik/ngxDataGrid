@@ -40,6 +40,7 @@ export class NgxdatagridComponent implements OnInit {
   viewPortItemEndIndex:number=0;
   lastScrollTop:number=0;
   lastSelectedIndex:number=0;
+  editingPropnRow={};
   constructor() { }
 
   ngOnInit() {
@@ -372,4 +373,8 @@ export class NgxdatagridComponent implements OnInit {
     }
 }
 
+  editPropnRow(rowIndex,column,value){
+    this.gridRows[rowIndex][column] = value;
+    this.editingPropnRow[rowIndex+'_'+column]=false;
+  }
 }

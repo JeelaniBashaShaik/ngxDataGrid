@@ -19,6 +19,7 @@ import { CustomWidthComponent } from './examples/custom-width/custom-width.compo
 import { ChangeLogComponent } from './change-log/change-log.component';
 import { TextAlignComponent } from './examples/text-align/text-align.component';
 import { ToolbarComponent } from './examples/toolbar/toolbar.component';
+import { Editable1Component } from './examples/editable1/editable1.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { ToolbarComponent } from './examples/toolbar/toolbar.component';
     CustomWidthComponent,
     ChangeLogComponent,
     TextAlignComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    Editable1Component
   ],
   imports: [
     BrowserModule,

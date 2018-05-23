@@ -1,0 +1,11 @@
+<mat-card>
+    <p> This example Demonstrates the inbuilt editable feature of ngxdatagrid. Just double click on the cell value to start editing<span [style.float]="'right'"> <a [href]="'https://github.com/JeelaniBashaShaik/ngxDataGrid/tree/master/src/app/examples/editable1'" [target]="'_blank'">View Code</a></span></p> 
+    <mat-grid-list cols="1" rowHeight="450px">
+        <mat-grid-tile>
+            <ngxdatagrid [rows]="dataArray" [forceColumnWidth]="false" [columns]="cols" [gridHeight]="350" [headerRowHeight]="30" [rowHeight]="30" [gridWidth]="900"></ngxdatagrid>
+        </mat-grid-tile>
+    </mat-grid-list>
+    This way of editing is fine if you just want to change the value. In case any validations have to be done on the edited value, then you might need to go for adding the cell-template.
+</mat-card>
+
+

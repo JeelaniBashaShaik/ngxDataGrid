@@ -16,6 +16,7 @@ import { SingleSelectComponent } from './examples/single-select/single-select.co
 import { CustomWidthComponent } from './examples/custom-width/custom-width.component';
 import { TextAlignComponent } from './examples/text-align/text-align.component';
 import { ToolbarComponent } from './examples/toolbar/toolbar.component';
+import { Editable1Component } from './examples/editable1/editable1.component';
 
 const routes: Routes = [
   { path: '', component: DocComponent },
@@ -25,13 +26,14 @@ const routes: Routes = [
   { path: 'templateRef', component:TemplateRefExampleComponent },
   { path: 'multiSelect', component:MultiSelectComponent },
   { path: 'draggable', component:DraggableComponent },
-  { path: 'editable', component:EditableComponent },
+  { path: 'editable1', component:EditableComponent },
   { path: 'filterGrid', component:FilterGridComponent },
   { path: 'virtualScroll', component:VirtualScrollComponent },
   { path: 'singleSelect', component:SingleSelectComponent },
   { path: 'customWidth', component:CustomWidthComponent },
   { path: 'textAlign', component:TextAlignComponent },
-  { path: 'toolbar', component:ToolbarComponent }
+  { path: 'toolbar', component:ToolbarComponent },
+  { path: 'editable2', component:Editable1Component }
 ];
 
 @NgModule({
