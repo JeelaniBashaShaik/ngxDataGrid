@@ -17,6 +17,7 @@ import { CustomWidthComponent } from './examples/custom-width/custom-width.compo
 import { TextAlignComponent } from './examples/text-align/text-align.component';
 import { ToolbarComponent } from './examples/toolbar/toolbar.component';
 import { Editable1Component } from './examples/editable1/editable1.component';
+import { PaginationComponent } from './examples/pagination/pagination.component';
 
 const routes: Routes = [
   { path: '', component: DocComponent },
@@ -33,7 +34,8 @@ const routes: Routes = [
   { path: 'customWidth', component:CustomWidthComponent },
   { path: 'textAlign', component:TextAlignComponent },
   { path: 'toolbar', component:ToolbarComponent },
-  { path: 'editable2', component:Editable1Component }
+  { path: 'editable2', component:Editable1Component },
+  { path: 'pagination', component:PaginationComponent }
 ];
 
 @NgModule({

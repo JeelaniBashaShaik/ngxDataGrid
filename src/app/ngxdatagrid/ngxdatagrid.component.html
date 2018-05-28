@@ -17,7 +17,7 @@
 
 <ng-template #mainGrid let-gridRows="gridRows">
   <div *ngIf="showToolbar" [style.width.px]="gridWidth" [style.height.px]="30" [style.background-color]="'orange'" id="searchBox">
-    <input type="text" (keyup)="searchGrid($event.target.value)" id="searchInput" [placeholder]=toolbarOptions.searchPlaceholder>
+    <input type="text" [(ngModel)]="searchQuery" (keyup)="searchGrid($event.target.value)" id="searchInput" [placeholder]=toolbarOptions.searchPlaceholder>
     <div [style.float]="'right'" [style.height.px]="30">
       <img src="/assets/csv.png" height="25" width="25" title="Csv Download" [style.cursor]="'pointer'" [style.padding-top.px]="2" (click)="downloadFile(toolbarOptions.fileName,toolbarOptions.csvDelimiter)">
       <img src="/assets/xls.png" height="25" width="25" title="Excel Download" [style.cursor]="'pointer'" [style.padding-top.px]="2" (click)="excelDownload(toolbarOptions.fileName)">
@@ -30,7 +30,7 @@
         class="headerCell headerCellStyle" [style.height]="headerRowHeight+ 'px'" [ngClass]={firstCell:first,intermediateCell:!first}
         [style.width]="column.width+'px'">
         <span *ngIf="selectionType && column.name == 'checkboxColumn'">
-          <input type="checkbox" [checked]="selectedRows.length && selectedRows.length == rows.length" [style.margin.px]="5"
+          <input type="checkbox" [checked]="selectedRows.length && selectedRows.length == _rows.length" [style.margin.px]="5"
             (change)="headerCheckboxChecked($event.target)">
         </span>
         <span class="headerName" (click)="callSort(column.name)">{{resolveName(column.name)}} <span *ngIf="column.editable">&#x270E;</span>
@@ -43,9 +43,9 @@
         </span>
       </span>
     </div>
-    <div [style.margin-top]="headerRowHeight+'px'" [style.width]="rowWidth+'px'" style="overflow-y:overlay" [style.position]="'relative'"
+    <div #rowsContent id="abcn" *ngIf="loadType == 'virtualScroll'" [style.margin-top]="headerRowHeight+'px'" [style.width]="rowWidth+'px'" style="overflow-y:overlay" [style.position]="'relative'"
       [style.height]="gridHeight-headerRowHeight + 'px'" (scroll)="changeInView($event.target.scrollTop)">
-      <div style="opacity:0;top:0px;width:30px;position:absolute" id="opaqueDiv" [style.height]="(rows.length*rowHeight)+'px'"></div>
+      <div style="opacity:0;top:0px;width:30px;position:absolute" id="opaqueDiv" [style.height]="(_rows.length*rowHeight)+'px'"></div>
       <div *ngFor="let row of gridRows;let even=even;let odd=odd;let index=index" (click)="singleSelectRow($event.target,row,row.trackingIndex)"
         [style.width]="rowWidth+'px'" [style.position]="'absolute'" [style.top]="(row.top+index)+'px'" [style.height]="rowHeight+'px'"
         class="gridRow" [ngClass]="{evenRow:even && !row.checked,oddRow:odd && !row.checked,selectedRow:row.checked}">
@@ -61,7 +61,50 @@
         </span>
       </div>
     </div>
+    <div #rowsContent *ngIf="loadType == 'pagination'" [style.margin-top]="headerRowHeight+'px'" [style.width]="rowWidth+'px'" style="overflow-y:hidden" [style.position]="'relative'"
+    [style.height]="gridHeight-headerRowHeight + 'px'">
+    <div *ngFor="let row of gridRows;let even=even;let odd=odd;let index=index" (click)="singleSelectRow($event.target,row,row.trackingIndex)"
+      [style.width]="rowWidth+'px'" [style.position]="'absolute'" [style.top]="(row.top+index)+'px'" [style.height]="rowHeight+'px'"
+      class="gridRow" [ngClass]="{evenRow:even && !row.checked,oddRow:odd && !row.checked,selectedRow:row.checked}">
+      <span class="gridCell" *ngFor="let column of columns;let first=first;" [ngClass]={firstCellOfRow:first,intermediateCellOfRow:!first}
+        [style.line-height]="rowHeight+'px'" [style.text-align]="column.textAlign" [style.width]="column.width+'px'">
+        <ng-container *ngIf="column.name == 'checkboxColumn'">
+          <ng-container *ngTemplateOutlet="checkboxCell;context:{row:row}"></ng-container>
+        </ng-container>
+        <ng-container *ngIf="column.name == 'radioColumn'">
+          <ng-container *ngTemplateOutlet="radioCell;context:{row:row}"></ng-container>
+        </ng-container>
+        <ng-container *ngTemplateOutlet="column.cellTemplate;context:{row:row,column:column}"></ng-container>
+      </span>
+    </div>
+  </div>
   </div>
 </ng-template>
 
 <div id="tableToExport" hidden></div>
+
+<ng-container  *ngTemplateOutlet="paginator;context:{pageNumbers:pageNumbers}";></ng-container>
+
+<ng-template #paginator>
+  <div id="paginator" *ngIf="loadType == 'pagination'">
+    <span style="padding-left:10px">Page: {{currentPage}}, {{paginationStart+1}} - {{paginationEnd}} of {{_rows.length}}</span>
+    <span *ngIf="noOfPages <= 5" style="float:right" [style.margin-right.px]="20">
+    <span class="pageNumber" *ngFor="let number of pageNumbers" [ngClass]="{currentPageColor:number == currentPage}" (click)="getPageNumber(number)">{{number}}</span>
+    </span>
+   <span *ngIf="noOfPages > 5" style="float:right" [style.margin-right.px]="20">
+     <span>
+       <select (change)="changePage($event.target.value)" [(ngModel)]="currentPage" name="currentPageNumber">
+        <option *ngFor="let num of pageNumbers" [value]="num">{{num}}</option> 
+       </select>
+      </span>
+      <span *ngIf="currentPage !=1" (click)="decrementPage()" style="cursor:pointer">&#9664;</span>
+      <span *ngIf="currentPage ==1" style="cursor:not-allowed">&#9665;</span>
+       <span (click)="getPageNumber(currentPage)" [style.color]="'black'">  {{currentPage}} </span> 
+       <span *ngIf="currentPage+1 < noOfPages" class="pageNumber" (click)="getPageNumber(currentPage+1)"> {{currentPage+1}} </span> 
+       <span *ngIf="currentPage+2 < noOfPages" class="pageNumber" (click)="getPageNumber(currentPage+2)"> {{currentPage+2}} </span>
+       <span *ngIf="currentPage+3 < noOfPages" class="pageNumber" (click)="getPageNumber(currentPage+3)"> {{currentPage+3}} </span> 
+       <span  *ngIf="currentPage != noOfPages" style="cursor:pointer" (click)="incrementPage()">&#9658;</span>
+       <span style="cursor:not-allowed" *ngIf="currentPage == noOfPages">&#9655;</span>
+  </span> 
+  </div>
+</ng-template>

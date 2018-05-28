@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule,CUSTOM_ELEMENTS_SCHEMA,NO_ERRORS_SCHEMA } from '@angular/core';
 import { SharedModule } from './shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { NgxdatagridComponent } from './ngxdatagrid/ngxdatagrid.component';
 import { RoutingModule } from './/routing.module';
@@ -20,6 +20,7 @@ import { ChangeLogComponent } from './change-log/change-log.component';
 import { TextAlignComponent } from './examples/text-align/text-align.component';
 import { ToolbarComponent } from './examples/toolbar/toolbar.component';
 import { Editable1Component } from './examples/editable1/editable1.component';
+import { PaginationComponent } from './examples/pagination/pagination.component';
 
 
 @NgModule({
@@ -39,10 +40,11 @@ import { Editable1Component } from './examples/editable1/editable1.component';
     ChangeLogComponent,
     TextAlignComponent,
     ToolbarComponent,
-    Editable1Component
+    Editable1Component,
+    PaginationComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,FormsModule,
     RoutingModule,
     SharedModule,
     BrowserAnimationsModule

@@ -19,9 +19,9 @@ export class VirtualScrollComponent implements OnInit {
 
   dataArray=[];
   cols=[
-    {name:'id',width:200},
-    {name:'randomNum_1',width:200},
-    {name:'randomNum_2',width:200},
-    {name:'randomNum_3',width:200}
+    {name:'id'},
+    {name:'randomNum_1'},
+    {name:'randomNum_2'},
+    {name:'randomNum_3'}
   ];
 }

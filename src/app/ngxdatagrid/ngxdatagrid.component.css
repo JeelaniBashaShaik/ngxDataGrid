@@ -68,3 +68,22 @@ input[type="checkbox"] {
      padding-right:5px;
      float:right;
  }
+
+ .pageNumber{
+     cursor: pointer;
+     color:white;
+     margin-left:10px;
+ }
+
+ #paginator{
+     border:1px solid lightgrey;
+     border-top:none;
+     color:white;
+     height: 25px;
+     line-height: 25px;
+     background-color: orange;
+ }
+
+.currentPageColor{
+    color:black;
+}

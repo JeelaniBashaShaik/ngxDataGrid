@@ -1,4 +1,4 @@
-import { Component, OnInit,Input,Output,ViewChild,EventEmitter } from '@angular/core';
+import { Component, OnInit,Input,Output,ViewChild,EventEmitter,ElementRef } from '@angular/core';
 
 @Component({
   selector: 'ngxdatagrid',
@@ -7,7 +7,11 @@ import { Component, OnInit,Input,Output,ViewChild,EventEmitter } from '@angular/
 })
 export class NgxdatagridComponent implements OnInit {
 
-  @Input('rows') rows:any;
+  /* @Input('rows') rows:any; */
+  @Input('rows')
+  set rows(rows) {
+    this._rows = rows;
+  }
   @Input('columns') columns:any;
   @Input('gridHeight') gridHeight:any;
   @Input('gridWidth') gridWidth:any;
@@ -17,9 +21,11 @@ export class NgxdatagridComponent implements OnInit {
   @Input('draggableColumns') isDraggable:boolean=false;
   @Input('forceColumnWidth') forceColumnWidth:boolean;
   @Input('showToolbar') showToolbar:boolean=false;
-  @Input('toolbarOptions') toolbarOptions={csvDelimiter:',',fileName:'gridData'};
+  @Input('toolbarOptions') toolbarOptions={csvDelimiter:',',fileName:'gridData',searchPlaceholder:'Search'};
+  @Input('loadType') loadType:string='virtualScroll';
   @Output()  selectedData: EventEmitter<any> = new EventEmitter();
   @ViewChild('normalCellTemplate') normalCellTemplate:any;
+  @ViewChild('rowsContent') rowsContent:ElementRef;
   columnWidth:any;
   isCheckboxable:boolean = false;
   rowsCopy=[];                                      // backup for sorting and search
@@ -41,6 +47,14 @@ export class NgxdatagridComponent implements OnInit {
   lastScrollTop:number=0;
   lastSelectedIndex:number=0;
   editingPropnRow={};
+  noOfPages:number=0;
+  pageNumbers=[];
+  visiblePageNumbers=[];
+  paginationStart:number;
+  paginationEnd:number;
+  currentPage:number=1;
+  _rows=[];
+  searchQuery:string;
   constructor() { }
 
   ngOnInit() {
@@ -78,16 +92,16 @@ export class NgxdatagridComponent implements OnInit {
     })
     this.rowWidth = leftToAdd+this.columns.length;
 
-    this.rows.map((row,index)=>{
+    this._rows.map((row,index)=>{
       row['top'] = (index * this.rowHeight);
       row['trackingIndex'] = index;
       row['checked'] = false;
     })
-    this.rowsCopy = JSON.parse(JSON.stringify(this.rows));
-    this.countOfItemsInViewPort = Math.ceil((this.gridHeight-this.headerRowHeight)/this.rowHeight);
-    this.totalScrollHeight = (this.rows.length * this.rowHeight);
-    this.gridRows = this.rows.filter((row,index)=>{
-      if(index>=0 && index<=this.countOfItemsInViewPort+1){
+    this.rowsCopy = JSON.parse(JSON.stringify(this._rows));
+    this.countOfItemsInViewPort = Math.floor((this.gridHeight-this.headerRowHeight)/this.rowHeight);
+    this.totalScrollHeight = (this._rows.length * this.rowHeight);
+    this.gridRows = this._rows.filter((row,index)=>{
+      if(index>=0 && index<=this.countOfItemsInViewPort){
         return row;
       }
     })
@@ -96,16 +110,36 @@ export class NgxdatagridComponent implements OnInit {
       row['checked'] = false;
     })
     this.viewPortItemEndIndex = this.countOfItemsInViewPort;
+   
+    this.noOfPages = Math.ceil(this._rows.length/this.countOfItemsInViewPort);
+    for(let i=1;i<=this.noOfPages;i++){
+      this.pageNumbers.push(i);
+    }
+    this.paginationStart = 0;
+    this.paginationEnd = this.viewPortItemEndIndex;
   }
 
   ngOnChanges(){
-   /*  this.rows.map((row,index)=>{
-      row['top'] = (index * this.rowHeight);
-      row['trackingIndex'] = index;
-      row['checked'] = false;
-    })
-    this.rowsCopy = JSON.parse(JSON.stringify(this.rows)); */
-   
+    if(this._rows.length > 0){
+      this._rows.map((row,index)=>{
+        row['top'] = (index * this.rowHeight);
+        row['trackingIndex'] = index;
+      })
+    this.rowsCopy = [...this._rows];
+    }
+   if(this.countOfItemsInViewPort > 0){
+       this.noOfPages = Math.ceil(this._rows.length/this.countOfItemsInViewPort);
+       this.pageNumbers = [];
+      for(let i=1;i<=this.noOfPages;i++){
+        this.pageNumbers.push(i);
+     } 
+     this.currentPage = 1;
+     this.getPageNumber(this.currentPage);
+    }
+    if(this.rowsContent != undefined){
+      this.rowsContent.nativeElement.scrollTop = 0;
+    }
+    this.searchQuery=null;
   }
   
   // convert column name to more readable form
@@ -128,7 +162,7 @@ export class NgxdatagridComponent implements OnInit {
     }else{
       let start = Math.min(trackingIndex,this.lastSelectedIndex);
       let end = Math.max(this.lastSelectedIndex,trackingIndex);
-      this.rows.map((row,index)=>{
+      this._rows.map((row,index)=>{
         if(index >= start && index <= end){
           row.checked = checked;
           if(checked){  
@@ -188,7 +222,7 @@ export class NgxdatagridComponent implements OnInit {
       this.viewPortItemStartIndex = this.countOfItemsScrolled;
       this.viewPortItemEndIndex = this.viewPortItemStartIndex + this.countOfItemsInViewPort;
       if(this.lastScrollTop != this.viewPortItemStartIndex){
-      let itemsToReturn = this.rows.filter((row,index)=>{
+      let itemsToReturn = this._rows.filter((row,index)=>{
         if((index>=this.viewPortItemStartIndex-1) && (index<=this.viewPortItemEndIndex)){ 
           return row;
         }
@@ -227,19 +261,19 @@ export class NgxdatagridComponent implements OnInit {
 
     callSort(prop){
       if(this.lastPropToSort != prop){      // if property to sort is not same as the last sorted property, get a copy and sort
-        this.rows = [...this.rowsCopy];
+        this._rows = [...this.rowsCopy];
         let x = this.mergeSort(this.rows,prop);
-        this.rows = x;
+        this._rows = x;
       }else{
-        this.rows.reverse();         // if property to sort is same as last sorted property, just reverse the array
+        this._rows.reverse();         // if property to sort is same as last sorted property, just reverse the array
       }
       this.lastPropToSort = prop;
       this.isAsc = !this.isAsc;
-      this.rows.map((row,index)=>{
+      this._rows.map((row,index)=>{
         row['top'] = (index * this.rowHeight);
         row['trackingIndex'] = index;
       })
-      let itemsToReturn = this.rows.filter((row,index)=>{
+      let itemsToReturn = this._rows.filter((row,index)=>{
         if((index>=this.viewPortItemStartIndex-1) && (index<=this.viewPortItemEndIndex)){ 
           return row;
         }
@@ -247,14 +281,17 @@ export class NgxdatagridComponent implements OnInit {
       this.gridRows = [...itemsToReturn];   
       this.isSorted = true;
       this.sortingProp = prop;
+      this.currentPage = 1;
+      this.paginationStart = 0;
+      this.paginationEnd = this.viewPortItemEndIndex;
     }
     
     headerCheckboxChecked({checked}){
       if(checked){    // if row is checked, push it into selected array
-        this.rows.map(row=>row.checked = true);
-        this.selectedRows = this.rows;
+        this._rows.map(row=>row.checked = true);
+        this.selectedRows = this._rows;
       }else{          // if row is unchecked, remove it from the selected array
-        this.rows.map(row=>row.checked = false);
+        this._rows.map(row=>row.checked = false);
         this.selectedRows = [];
       }
       this.lastSelectedIndex = 0;
@@ -263,7 +300,7 @@ export class NgxdatagridComponent implements OnInit {
 
     searchGrid(query){
       if(!query){
-        this.rows = [...this.rowsCopy];
+        this._rows = [...this.rowsCopy];
       }else{
         query = query.toString().toLowerCase();
           let arrayToReturn =   this.rowsCopy.filter(row=>{
@@ -273,24 +310,36 @@ export class NgxdatagridComponent implements OnInit {
                     return row[column]
               }).toString().toLowerCase().indexOf(query)) > -1;
         })
-        this.rows = arrayToReturn;
+        this._rows = arrayToReturn;
       }
       this.countOfItemsInViewPort = Math.ceil((this.gridHeight-this.headerRowHeight)/this.rowHeight);
-      this.totalScrollHeight = (this.rows.length * this.rowHeight);
-      this.rows.map((row,index)=>{
+      this.totalScrollHeight = (this._rows.length * this.rowHeight);
+      this._rows.map((row,index)=>{
         row['top'] = (index * this.rowHeight);
         row['trackingIndex'] = index;
         row['checked'] = false;
       })
-      this.gridRows = this.rows.filter((row,index)=>{
+      this.gridRows = this._rows.filter((row,index)=>{
         if(index>=0 && index<=this.countOfItemsInViewPort+1){
           return row;
         }
       })
+      if(this.countOfItemsInViewPort > 0){
+        this.noOfPages = Math.ceil(this._rows.length/this.countOfItemsInViewPort);
+        this.pageNumbers = [];
+       for(let i=1;i<=this.noOfPages;i++){
+         this.pageNumbers.push(i);
+      } 
+      this.currentPage = 1;
+      this.getPageNumber(this.currentPage);
+     }
+     if(this.rowsContent != undefined){
+       this.rowsContent.nativeElement.scrollTop = 0;
+     }
     }
 
   downloadFile(fileName='gridData',delimiter=','){
-    let headers = Object.keys(this.rows[0]);
+    let headers = Object.keys(this._rows[0]);
     headers = headers.filter(header=>{
       if(header != 'top' && header != 'trackingIndex' && header != 'checked'){
         return header;
@@ -306,7 +355,7 @@ export class NgxdatagridComponent implements OnInit {
       }
     })
     content = content + '\r\n';                           // appending new line after the header row
-    this.rows.map((row,rowIndex)=>{
+    this._rows.map((row,rowIndex)=>{
       headers.map((header,headerIndex)=>{
         if(row[header] == null || undefined){
           row[header] = '';                              // replacing all the null and undefined values because
@@ -347,7 +396,7 @@ export class NgxdatagridComponent implements OnInit {
       let row_cell = _row.insertCell(columnIndex);
       row_cell.innerHTML = this.modifyHeaderName(column.name);
     })
-    this.rows.map((row,rowIndex)=>{
+    this._rows.map((row,rowIndex)=>{
       let _row = table.insertRow(rowIndex+1);
       cols.map((column,columnIndex)=>{
         let row_cell = _row.insertCell(columnIndex);
@@ -376,5 +425,51 @@ export class NgxdatagridComponent implements OnInit {
   editPropnRow(rowIndex,column,value){
     this.gridRows[rowIndex][column] = value;
     this.editingPropnRow[rowIndex+'_'+column]=false;
+  }
+
+  getPageNumber(pageNumber:number){
+    let startIndex = this.countOfItemsInViewPort*(pageNumber-1);
+    let endIndex = startIndex + this.countOfItemsInViewPort;
+    this.paginationStart = startIndex;
+    if(endIndex > this._rows.length){
+      this.paginationEnd = this._rows.length;
+    }else{
+      this.paginationEnd =  this.viewPortItemEndIndex;;
+    }
+    
+  
+    let newArray = this._rows.filter((row,index)=>{
+      if((index >= startIndex) && (index <= endIndex)){
+        return row;
+      } 
+    })
+    this.gridRows = newArray;
+    this.gridRows.map((row,index)=>{
+      row['top'] = (index * this.rowHeight);
+    })
+    this.currentPage = pageNumber;
+  
+  }
+
+  incrementPage(){
+    
+    if(this.currentPage != this.noOfPages){
+      this.currentPage++;
+      this.getPageNumber(this.currentPage);
+    }
+     
+   }
+
+  decrementPage(){
+
+    if(this.currentPage != 1){
+      this.currentPage--;
+      this.getPageNumber(this.currentPage);
+    }   
+  }
+
+  changePage(e){
+    this.currentPage = Number(e);
+    this.getPageNumber(this.currentPage);
   }
 }
