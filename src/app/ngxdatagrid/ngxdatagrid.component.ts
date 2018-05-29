@@ -434,7 +434,7 @@ export class NgxdatagridComponent implements OnInit {
     if(endIndex > this._rows.length){
       this.paginationEnd = this._rows.length;
     }else{
-      this.paginationEnd =  this.viewPortItemEndIndex;;
+      this.paginationEnd = endIndex;
     }
     
   
