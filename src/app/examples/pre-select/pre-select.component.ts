@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-basic-example',
-  templateUrl: './basic-example.component.html',
-  styleUrls: ['./basic-example.component.css']
+  selector: 'app-pre-select',
+  templateUrl: './pre-select.component.html',
+  styleUrls: ['./pre-select.component.css']
 })
-export class BasicExampleComponent implements OnInit {
+export class PreSelectComponent implements OnInit {
 
   constructor() { }
 
   ngOnInit() {
+    this.selectedRows = [this.dataArray[2],this.dataArray[3],this.dataArray[4]];
   }
-  d=[];
 
+  selectedRows=[];
   cols=[
     {name:"userId"},
     {name:"id"},
@@ -99,4 +100,9 @@ export class BasicExampleComponent implements OnInit {
       "completed": true
   }
 ];
+  getSelectedData(selectedRows){
+    this.selectedRows = selectedRows;
+    console.log(this.selectedRows);
+  }
+  
 }

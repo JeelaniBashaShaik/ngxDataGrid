@@ -21,6 +21,7 @@ import { TextAlignComponent } from './examples/text-align/text-align.component';
 import { ToolbarComponent } from './examples/toolbar/toolbar.component';
 import { Editable1Component } from './examples/editable1/editable1.component';
 import { PaginationComponent } from './examples/pagination/pagination.component';
+import { PreSelectComponent } from './examples/pre-select/pre-select.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { PaginationComponent } from './examples/pagination/pagination.component'
     TextAlignComponent,
     ToolbarComponent,
     Editable1Component,
-    PaginationComponent
+    PaginationComponent,
+    PreSelectComponent
   ],
   imports: [
     BrowserModule,FormsModule,

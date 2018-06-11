@@ -23,6 +23,7 @@ export class NgxdatagridComponent implements OnInit {
   @Input('showToolbar') showToolbar:boolean=false;
   @Input('toolbarOptions') toolbarOptions={csvDelimiter:',',fileName:'gridData',searchPlaceholder:'Search'};
   @Input('loadType') loadType:string='virtualScroll';
+  @Input('preSelectedRows') preSelectedRows = [];
   @Output()  selectedData: EventEmitter<any> = new EventEmitter();
   @ViewChild('normalCellTemplate') normalCellTemplate:any;
   @ViewChild('rowsContent') rowsContent:ElementRef;
@@ -117,6 +118,12 @@ export class NgxdatagridComponent implements OnInit {
     }
     this.paginationStart = 0;
     this.paginationEnd = this.viewPortItemEndIndex;
+
+    if(this.preSelectedRows.length){
+        this.preSelectedRows.map(row=>{
+          this.multiSelectRow({checked:true},row,row.trackingIndex,{shiftKey:false});
+        })
+    }
   }
 
   ngOnChanges(){
@@ -262,7 +269,7 @@ export class NgxdatagridComponent implements OnInit {
     callSort(prop){
       if(this.lastPropToSort != prop){      // if property to sort is not same as the last sorted property, get a copy and sort
         this._rows = [...this.rowsCopy];
-        let x = this.mergeSort(this.rows,prop);
+        let x = this.mergeSort(this._rows,prop);
         this._rows = x;
       }else{
         this._rows.reverse();         // if property to sort is same as last sorted property, just reverse the array

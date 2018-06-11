@@ -18,6 +18,7 @@ import { TextAlignComponent } from './examples/text-align/text-align.component';
 import { ToolbarComponent } from './examples/toolbar/toolbar.component';
 import { Editable1Component } from './examples/editable1/editable1.component';
 import { PaginationComponent } from './examples/pagination/pagination.component';
+import { PreSelectComponent } from './examples/pre-select/pre-select.component';
 
 const routes: Routes = [
   { path: '', component: DocComponent },
@@ -35,7 +36,8 @@ const routes: Routes = [
   { path: 'textAlign', component:TextAlignComponent },
   { path: 'toolbar', component:ToolbarComponent },
   { path: 'editable2', component:Editable1Component },
-  { path: 'pagination', component:PaginationComponent }
+  { path: 'pagination', component:PaginationComponent },
+  { path: 'preselect', component: PreSelectComponent }
 ];
 
 @NgModule({
