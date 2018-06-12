@@ -16,18 +16,19 @@
 <ng-container *ngTemplateOutlet="mainGrid;context:{gridRows:gridRows}"></ng-container>
 
 <ng-template #mainGrid let-gridRows="gridRows">
-  <div *ngIf="showToolbar" [style.width.px]="gridWidth" [style.height.px]="30" [style.background-color]="'orange'" id="searchBox">
-    <input type="text" [(ngModel)]="searchQuery" (keyup)="searchGrid($event.target.value)" id="searchInput" [placeholder]=toolbarOptions.searchPlaceholder>
+  <div class="grid">
+  <div *ngIf="showToolbar" [style.width.px]="gridWidth" [style.height.px]="30" [style.background-color]="styles.toolbarBgColor" id="searchBox">
+    <input type="text" [(ngModel)]="searchQuery" (keyup)="searchGrid($event.target.value)" id="searchInput" [style.border]="'1px solid '+ styles.toolbarBgColor" [placeholder]=toolbarOptions.searchPlaceholder>
     <div [style.float]="'right'" [style.height.px]="30">
       <img src="/assets/csv.png" height="25" width="25" title="Csv Download" [style.cursor]="'pointer'" [style.padding-top.px]="2" (click)="downloadFile(toolbarOptions.fileName,toolbarOptions.csvDelimiter)">
       <img src="/assets/xls.png" height="25" width="25" title="Excel Download" [style.cursor]="'pointer'" [style.padding-top.px]="2" (click)="excelDownload(toolbarOptions.fileName)">
     </div>
   </div>
   <div [style.width]="gridWidth + 'px'" [style.height]="gridHeight + 'px'" [style.border]="'1px solid lightgrey'" style="position:relative;overflow-y:hidden;overflow-x:auto">
-    <div [style.width]="rowWidth+ 'px'" [style.height]="headerRowHeight+ 'px'" [style.background-color]="'orange'" [style.position]="'absolute'"
+    <div [style.width]="rowWidth+ 'px'" [style.height]="headerRowHeight+ 'px'" [style.position]="'absolute'" [style.background-color]="styles.headerBgColor"
       [style.border-bottom]="'1px solid lightgrey'">
       <span *ngFor="let column of columns;let first=first;let columnIndex=index" [style.left]="column.left+'px'" [style.line-height]="headerRowHeight+'px'"
-        class="headerCell headerCellStyle" [style.height]="headerRowHeight+ 'px'" [ngClass]={firstCell:first,intermediateCell:!first}
+        class="headerCell" [style.background-color]="styles.headerBgColor" [style.color]="styles.headerFontColor" [style.height]="headerRowHeight+ 'px'" [ngClass]={firstCell:first,intermediateCell:styles.showInsideBorders}
         [style.width]="column.width+'px'">
         <span *ngIf="selectionType && column.name == 'checkboxColumn'">
           <input type="checkbox" [checked]="selectedRows.length && selectedRows.length == _rows.length" [style.margin.px]="5"
@@ -48,8 +49,8 @@
       <div style="opacity:0;top:0px;width:30px;position:absolute" id="opaqueDiv" [style.height]="(_rows.length*rowHeight)+'px'"></div>
       <div *ngFor="let row of gridRows;let even=even;let odd=odd;let index=index" (click)="singleSelectRow($event.target,row,row.trackingIndex)"
         [style.width]="rowWidth+'px'" [style.position]="'absolute'" [style.top]="(row.top+index)+'px'" [style.height]="rowHeight+'px'"
-        class="gridRow" [ngClass]="{evenRow:even && !row.checked,oddRow:odd && !row.checked,selectedRow:row.checked}">
-        <span class="gridCell" *ngFor="let column of columns;let first=first;" [ngClass]={firstCellOfRow:first,intermediateCellOfRow:!first}
+        class="gridRow" [ngClass]="{evenRow:even && !row.checked && styles.showEvenOdd,oddRow:odd && !row.checked && styles.showEvenOdd,selectedRow:row.checked}">
+        <span class="gridCell" *ngFor="let column of columns;let first=first;" [ngClass]={firstCellOfRow:first,intermediateCellOfRow:styles.showInsideBorders}
           [style.line-height]="rowHeight+'px'" [style.text-align]="column.textAlign" [style.width]="column.width+'px'">
           <ng-container *ngIf="column.name == 'checkboxColumn'">
             <ng-container *ngTemplateOutlet="checkboxCell;context:{row:row}"></ng-container>
@@ -65,8 +66,8 @@
     [style.height]="gridHeight-headerRowHeight + 'px'">
     <div *ngFor="let row of gridRows;let even=even;let odd=odd;let index=index" (click)="singleSelectRow($event.target,row,row.trackingIndex)"
       [style.width]="rowWidth+'px'" [style.position]="'absolute'" [style.top]="(row.top+index)+'px'" [style.height]="rowHeight+'px'"
-      class="gridRow" [ngClass]="{evenRow:even && !row.checked,oddRow:odd && !row.checked,selectedRow:row.checked}">
-      <span class="gridCell" *ngFor="let column of columns;let first=first;" [ngClass]={firstCellOfRow:first,intermediateCellOfRow:!first}
+      class="gridRow" [ngClass]="{evenRow:even && !row.checked && styles.showEvenOdd,oddRow:odd && !row.checked && styles.showEvenOdd,selectedRow:row.checked}">
+      <span class="gridCell" *ngFor="let column of columns;let first=first;" [ngClass]={firstCellOfRow:first,intermediateCellOfRow:styles.showInsideBorders}
         [style.line-height]="rowHeight+'px'" [style.text-align]="column.textAlign" [style.width]="column.width+'px'">
         <ng-container *ngIf="column.name == 'checkboxColumn'">
           <ng-container *ngTemplateOutlet="checkboxCell;context:{row:row}"></ng-container>
@@ -79,6 +80,7 @@
     </div>
   </div>
   </div>
+  </div>
 </ng-template>
 
 <div id="tableToExport" hidden></div>
@@ -86,7 +88,7 @@
 <ng-container  *ngTemplateOutlet="paginator;context:{pageNumbers:pageNumbers}";></ng-container>
 
 <ng-template #paginator>
-  <div id="paginator" *ngIf="loadType == 'pagination'">
+  <div id="paginator" [style.color]="styles.paginatorFontColor" [style.background-color]="styles.paginatorBgColor" *ngIf="loadType == 'pagination'">
     <span style="padding-left:10px">Page: {{currentPage}}, {{paginationStart+1}} - {{paginationEnd}} of {{_rows.length}}</span>
     <span *ngIf="noOfPages <= 5" style="float:right" [style.margin-right.px]="20">
     <span class="pageNumber" *ngFor="let number of pageNumbers" [ngClass]="{currentPageColor:number == currentPage}" (click)="getPageNumber(number)">{{number}}</span>

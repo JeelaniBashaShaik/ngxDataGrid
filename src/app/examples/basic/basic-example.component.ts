@@ -11,7 +11,12 @@ export class BasicExampleComponent implements OnInit {
 
   ngOnInit() {
   }
-  d=[];
+
+  gridStyling = {
+      headerBgColor:'coral',
+      headerFontColor:'white',
+      showInsideBorders:false
+  };
 
   cols=[
     {name:"userId"},

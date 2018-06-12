@@ -24,8 +24,9 @@ input[type="checkbox"] {
 .headerCell {
     float: left;
     text-align: center;
-    background-color: orange;
-    color:white;
+   /*  background-color: orange;
+    color:white; */
+    color:black;
     position:absolute;
 }
 .gridRow:hover{
@@ -58,7 +59,6 @@ input[type="checkbox"] {
  }
 
  #searchInput{
-     border:1px solid orange;
      border-radius:2px;
      padding-left:10px;
      margin-left:5px;
@@ -78,12 +78,33 @@ input[type="checkbox"] {
  #paginator{
      border:1px solid lightgrey;
      border-top:none;
-     color:white;
      height: 25px;
      line-height: 25px;
-     background-color: orange;
+     font-size:14px
  }
 
 .currentPageColor{
     color:black;
+}
+
+.grid{
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2)
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius:5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
 }

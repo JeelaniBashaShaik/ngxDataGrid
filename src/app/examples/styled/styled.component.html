@@ -1,0 +1,72 @@
+<mat-card>
+    <p> This example Demonstrates the example for how to apply styles for ngxdatagrid.<span [style.float]="'right'"> <a [href]="'https://github.com/JeelaniBashaShaik/ngxDataGrid/tree/master/src/app/examples/styled'" [target]="'_blank'">View Code</a></span></p> 
+    <mat-grid-list cols="4" rowHeight="60px">
+        <mat-grid-tile>
+            <mat-form-field>
+                <mat-select placeholder="Header Background Color" [(ngModel)]="gridStyling.headerBgColor" name="headerBgColor">
+                  <mat-option [value]="'red'"> Red </mat-option>
+                  <mat-option [value]="'blue'">Blue </mat-option>
+                  <mat-option [value]="'green'">Green</mat-option>
+                  <mat-option [value]="'coral'">Coral</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <mat-form-field>
+                <mat-select placeholder="Header Font Color" [(ngModel)]="gridStyling.headerFontColor" name="headerFontColor">
+                  <mat-option [value]="'white'"> White </mat-option>
+                  <mat-option [value]="'black'"> Black</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <mat-form-field>
+                <mat-select placeholder="ToolBar Background Color" [(ngModel)]="gridStyling.toolbarBgColor" name="toolbarBgColor">
+                    <mat-option [value]="'red'"> Red </mat-option>
+                    <mat-option [value]="'blue'">Blue </mat-option>
+                    <mat-option [value]="'green'">Green</mat-option>
+                    <mat-option [value]="'coral'">Coral</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <mat-form-field>
+                <mat-select placeholder="Paginator Background Color" [(ngModel)]="gridStyling.paginatorBgColor" name="paginatorBgColor">
+                    <mat-option [value]="'red'"> Red </mat-option>
+                    <mat-option [value]="'blue'">Blue </mat-option>
+                    <mat-option [value]="'green'">Green</mat-option>
+                    <mat-option [value]="'coral'">Coral</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <mat-slide-toggle [color]="'primary'" (change)="toolbarChange($event)">Toolbar</mat-slide-toggle>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <mat-slide-toggle [color]="'primary'" (change)="paginatorChange($event)">Paginator</mat-slide-toggle>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <mat-slide-toggle [color]="'primary'" (change)="showBordersChange($event)">Show Internal Borders</mat-slide-toggle>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <mat-slide-toggle [color]="'primary'" (change)="evenOddChange($event)">Style Even Odd Rows</mat-slide-toggle>
+        </mat-grid-tile>
+       
+
+    </mat-grid-list>
+    
+    <mat-grid-list cols="1" rowHeight="400px">
+        <mat-grid-tile>
+            <ngxdatagrid [rows]="dataArray" [showToolbar]="showToolbar" [loadType]="loadType" [toolbarOptions]="gridToolbarOptions" [styles]="gridStyling" [columns]="cols" [gridHeight]="250" [headerRowHeight]="30" [rowHeight]="30" [gridWidth]="900"></ngxdatagrid>
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-card>
+
+

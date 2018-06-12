@@ -1,20 +1,20 @@
 .headerCellStyle {
-    background-color: orange;
-    color:white;
+  /*   background-color: orange; */
+ /*    color:black; */
 }
 .gridRow:hover{
-    background-color: rgb(156, 206, 245);
+   /*  background-color: rgb(156, 206, 245); */
 }
 .headerName{
     cursor: pointer;
     font-size: 18px
  }
 .evenRow{
-    background-color: rgb(247, 247, 247);
+   /*  background-color: rgb(247, 247, 247); */
  }
 .oddRow{
-    background-color: rgb(253, 253, 253);
+   /*  background-color: rgb(253, 253, 253); */
  }
 .selectedRow{
-    background-color: rgb(181, 247, 201)
+  /*   background-color: rgb(181, 247, 201) */
  }

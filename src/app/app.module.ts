@@ -22,6 +22,7 @@ import { ToolbarComponent } from './examples/toolbar/toolbar.component';
 import { Editable1Component } from './examples/editable1/editable1.component';
 import { PaginationComponent } from './examples/pagination/pagination.component';
 import { PreSelectComponent } from './examples/pre-select/pre-select.component';
+import { StyledComponent } from './examples/styled/styled.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { PreSelectComponent } from './examples/pre-select/pre-select.component';
     ToolbarComponent,
     Editable1Component,
     PaginationComponent,
-    PreSelectComponent
+    PreSelectComponent,
+    StyledComponent
   ],
   imports: [
     BrowserModule,FormsModule,
