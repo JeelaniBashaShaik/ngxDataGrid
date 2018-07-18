@@ -24,7 +24,8 @@ export class StyledComponent implements OnInit {
     paginatorBgColor:'coral',
     paginatorFontColor:'white',
     showEvenOdd:false,
-    selectedRowBgColor:'lightblue'
+    selectedRowBgColor:'lightblue',
+    showDownloads:false
 };
 
 toolbarChange({checked}){
@@ -54,12 +55,21 @@ evenOddChange({checked}){
     this.gridStyling.showEvenOdd = false;
   }
 }
+
+downloadsChange({checked}){
+  if(checked){
+    this.gridStyling.showDownloads = true;
+  }else{
+    this.gridStyling.showDownloads = false;
+  }
+}
 cols=[
   {name:"userId"},
   {name:"id"},
   {name:"title"},
   {name:"completed"}
 ];
+x=[];
 dataArray = [
   {
       "userId": 256,

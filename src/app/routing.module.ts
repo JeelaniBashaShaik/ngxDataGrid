@@ -22,7 +22,7 @@ import { PreSelectComponent } from './examples/pre-select/pre-select.component';
 import { StyledComponent } from './examples/styled/styled.component';
 
 const routes: Routes = [
-  { path: '', component: DocComponent },
+  { path: '', component: StyledComponent },
   { path: 'doc', component: DocComponent },
   { path: 'changeLog', component:ChangeLogComponent },
   { path: 'basic', component:BasicExampleComponent },

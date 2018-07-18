@@ -1,4 +1,4 @@
-import { Component, OnInit,Input,Output,ViewChild,EventEmitter,ElementRef } from '@angular/core';
+import { Component, OnInit,Input,Output,ViewChild,EventEmitter,ElementRef,Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'ngxdatagrid',
@@ -31,11 +31,14 @@ export class NgxdatagridComponent implements OnInit {
     showInsideBorders:false,
     paginatorBgColor:'coral',
     paginatorFontColor:'white',
-    showEvenOdd:false
+    showEvenOdd:false,
+    toolsPanelHeight:150,
+    showDownloads:true
   };
   @Output()  selectedData: EventEmitter<any> = new EventEmitter();
   @ViewChild('normalCellTemplate') normalCellTemplate:any;
   @ViewChild('rowsContent') rowsContent:ElementRef;
+  @ViewChild('toolkit') toolkit:ElementRef;
   columnWidth:any;
   isCheckboxable:boolean = false;
   rowsCopy=[];                                      // backup for sorting and search
@@ -65,24 +68,25 @@ export class NgxdatagridComponent implements OnInit {
   currentPage:number=1;
   _rows=[];
   searchQuery:string;
-  constructor() { }
+  constructor(private renderer:Renderer2) { }
 
   ngOnInit() {
-    let firstColumn = {};
-    if(this.selectionType == 'multiple'){
-      this.isCheckboxable = true;                   // this adds an extra column with checkbox for every row
-      firstColumn = {name:'checkboxColumn',width:'25'}
-    }else if(this.selectionType == 'single'){
-      this.isCheckboxable = true;                  
-      firstColumn = {name:'radioColumn',width:'25'}
-    }
+    
+//    this.gridColumns = JSON.parse(JSON.stringify(this.columns));
+this.gridColumns = [...this.columns];
+this.gridColumns.map(column=>{
+  column.checked = true;
+})
+    //this.calculateColumns();
+    this.changeColumnVisibility();
+    /* this.gridColumns = JSON.parse(JSON.stringify(this.columns));
     if(this.isCheckboxable){
       this.columns = [firstColumn,...this.columns]; //adding the checkbox column for multiple selection
       this.columnWidth = ((this.gridWidth-this.columns.length-25)/(this.columns.length-1)); // assigning column width by excluding the checknox column
     }else{
       this.columnWidth = ((this.gridWidth-this.columns.length)/this.columns.length);
     }
-    let leftToAdd:number=0;
+    let leftToAdd:number=0; 
     this.columns.map((column,index)=>{
       if(column.name != 'checkboxColumn' && column.name != 'radioColumn'){
         if(!this.forceColumnWidth){
@@ -90,6 +94,9 @@ export class NgxdatagridComponent implements OnInit {
         }
         if(column.cellTemplate == undefined){        
           column['cellTemplate'] = this.normalCellTemplate;   // if no cell-template is defined, adding the default normal cell template
+        }
+        if(column.checked == undefined){
+          //column.checked = true;
         }
       } 
       if(index == 0){
@@ -100,7 +107,7 @@ export class NgxdatagridComponent implements OnInit {
         leftToAdd += Number(column['width']);
       }      
     })
-    this.rowWidth = leftToAdd+this.columns.length;
+    this.rowWidth = leftToAdd+this.columns.length; */
 
     this._rows.map((row,index)=>{
       row['top'] = (index * this.rowHeight);
@@ -213,7 +220,8 @@ export class NgxdatagridComponent implements OnInit {
     }
 
       dragStart(event,columnIndex){
-        event.stopPropagation(); 
+        event.stopPropagation();
+        console.log("start",columnIndex);
         this.dragSourceColumnIndex = columnIndex;
       }
       
@@ -225,6 +233,7 @@ export class NgxdatagridComponent implements OnInit {
       drop(event,columnIndex) {
         event.stopPropagation();   
         event.preventDefault();  
+        console.log("drop",columnIndex);
         this.dropDestinationColumnIndex=columnIndex;
         let item1 = this.columns[this.dragSourceColumnIndex];
         let item2 = this.columns[this.dropDestinationColumnIndex];
@@ -488,4 +497,67 @@ export class NgxdatagridComponent implements OnInit {
       this.currentPage = Number(e);
       this.getPageNumber(this.currentPage);
     }
+
+    changeColumnVisibility(){
+      this.columns = this.gridColumns.filter(column=>{
+        if(column.checked || column.checked == undefined){
+          return column;
+        }
+      })
+      this.calculateColumns();
+    }
+
+    calculateColumns(){
+      let firstColumn = {};
+      if(this.selectionType == 'multiple'){
+        this.isCheckboxable = true;                 
+        firstColumn = {name:'checkboxColumn',width:'25'}
+      }else if(this.selectionType == 'single'){
+        this.isCheckboxable = true;                  
+        firstColumn = {name:'radioColumn',width:'25'}
+      }
+      if(this.isCheckboxable){
+        this.columns = [firstColumn,...this.columns]; //adding the checkbox column for multiple selection
+        this.columnWidth = ((this.gridWidth-this.columns.length-25)/(this.columns.length-1)); // assigning column width by excluding the checknox column
+      }else{
+        this.columnWidth = ((this.gridWidth-this.columns.length)/this.columns.length);
+      }
+      let leftToAdd:number=0; 
+      this.columns.map((column,index)=>{
+        if(column.name != 'checkboxColumn' && column.name != 'radioColumn'){
+          if(!this.forceColumnWidth){
+            column['width'] = this.columnWidth;
+          }
+          if(column.cellTemplate == undefined){        
+            column['cellTemplate'] = this.normalCellTemplate;   // if no cell-template is defined, adding the default normal cell template
+          }
+          if(column.checked == undefined){
+            //column.checked = true;
+          }
+        } 
+        if(index == 0){
+          column['left']=0;
+          leftToAdd += Number(column['width']);
+        }if(index != 0){
+          column['left'] = leftToAdd+index-1;
+          leftToAdd += Number(column['width']);
+        }      
+      })
+      this.rowWidth = leftToAdd+this.columns.length;
+    }
+
+    showtoolkit:boolean=false;
+    gridviewOpacity:number;
+    toggletoolkit(){
+      this.showtoolkit = !this.showtoolkit;
+      if(this.showtoolkit){
+        this.gridviewOpacity = 0.3;
+       
+      }else{
+        this.gridviewOpacity = 1;
+
+      }
+      
+    }
+    
 }
