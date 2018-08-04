@@ -33,7 +33,7 @@ export class NgxdatagridComponent implements OnInit {
     paginatorFontColor:'white',
     showEvenOdd:false,
     toolsPanelHeight:150,
-    showDownloads:true
+    showDownloads:true,
   };
   @Output()  selectedData: EventEmitter<any> = new EventEmitter();
   @ViewChild('normalCellTemplate') normalCellTemplate:any;
@@ -159,7 +159,7 @@ this.gridColumns.map(column=>{
       this.currentPage = 1;
       this.getPageNumber(this.currentPage);
       }
-      if(this.rowsContent != undefined){
+      if(this.rowsContent !== undefined){
         this.rowsContent.nativeElement.scrollTop = 0;
       }
       this.searchQuery=null;
@@ -469,95 +469,89 @@ this.gridColumns.map(column=>{
         } 
       })
       this.gridRows = newArray;
-      this.gridRows.map((row,index)=>{
+      this.gridRows.map((row,index) => {
         row['top'] = (index * this.rowHeight);
-      })
+      });
       this.currentPage = pageNumber;
-    
     }
 
-    incrementPage(){
-      
-      if(this.currentPage != this.noOfPages){
+    incrementPage() {
+      if(this.currentPage != this.noOfPages) {
         this.currentPage++;
         this.getPageNumber(this.currentPage);
       }
-      
     }
 
-    decrementPage(){
+    decrementPage() {
 
-      if(this.currentPage != 1){
+      if(this.currentPage != 1) {
         this.currentPage--;
         this.getPageNumber(this.currentPage);
-      }   
+      }
     }
 
-    changePage(e){
+    changePage(e) {
       this.currentPage = Number(e);
       this.getPageNumber(this.currentPage);
     }
 
-    changeColumnVisibility(){
-      this.columns = this.gridColumns.filter(column=>{
-        if(column.checked || column.checked == undefined){
+    changeColumnVisibility() {
+      this.columns = this.gridColumns.filter(column => {
+        if(column.checked || column.checked == undefined) {
           return column;
         }
-      })
+      });
       this.calculateColumns();
     }
 
-    calculateColumns(){
+    calculateColumns() {
       let firstColumn = {};
-      if(this.selectionType == 'multiple'){
-        this.isCheckboxable = true;                 
-        firstColumn = {name:'checkboxColumn',width:'25'}
-      }else if(this.selectionType == 'single'){
-        this.isCheckboxable = true;                  
-        firstColumn = {name:'radioColumn',width:'25'}
+      if(this.selectionType == 'multiple') {
+        this.isCheckboxable = true;
+        firstColumn = {name:'checkboxColumn',width:'25'};
+      } else if(this.selectionType == 'single') {
+        this.isCheckboxable = true;
+        firstColumn = {name:'radioColumn',width:'25'};
       }
-      if(this.isCheckboxable){
-        this.columns = [firstColumn,...this.columns]; //adding the checkbox column for multiple selection
+      if(this.isCheckboxable) {
+        this.columns = [firstColumn,...this.columns]; // adding the checkbox column for multiple selection
         this.columnWidth = ((this.gridWidth-this.columns.length-25)/(this.columns.length-1)); // assigning column width by excluding the checknox column
-      }else{
+      } else {
         this.columnWidth = ((this.gridWidth-this.columns.length)/this.columns.length);
       }
-      let leftToAdd:number=0; 
-      this.columns.map((column,index)=>{
+      let leftToAdd = 0;
+      this.columns.map((column,index)=> {
         if(column.name != 'checkboxColumn' && column.name != 'radioColumn'){
-          if(!this.forceColumnWidth){
+          if(!this.forceColumnWidth) {
             column['width'] = this.columnWidth;
           }
-          if(column.cellTemplate == undefined){        
+          if(column.cellTemplate == undefined) {
             column['cellTemplate'] = this.normalCellTemplate;   // if no cell-template is defined, adding the default normal cell template
           }
-          if(column.checked == undefined){
-            //column.checked = true;
+          if(column.checked == undefined) {
+            // column.checked = true;
           }
-        } 
-        if(index == 0){
+        }
+        if(index == 0) {
           column['left']=0;
           leftToAdd += Number(column['width']);
-        }if(index != 0){
+        }if(index != 0) {
           column['left'] = leftToAdd+index-1;
           leftToAdd += Number(column['width']);
-        }      
+        }
       })
       this.rowWidth = leftToAdd+this.columns.length;
     }
 
     showtoolkit:boolean=false;
     gridviewOpacity:number;
-    toggletoolkit(){
+    toggletoolkit() {
       this.showtoolkit = !this.showtoolkit;
-      if(this.showtoolkit){
+      if(this.showtoolkit) {
         this.gridviewOpacity = 0.3;
-       
-      }else{
+      } else {
         this.gridviewOpacity = 1;
 
       }
-      
     }
-    
 }
